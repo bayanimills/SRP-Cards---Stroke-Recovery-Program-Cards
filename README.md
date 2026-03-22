@@ -1,50 +1,43 @@
-# ExerciseFlow
+# Stroke Recovery Program Cards
 
-Personalized rehabilitation exercise sheet generator for elderly patients with cognitive and vision impairment.
+**Recovery in Motion** — Personalized, accessible rehabilitation exercises that empower patients and caregivers through evidence-based, easy-to-use printed cards.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/)
 
-## Overview
+## Why SRP Cards?
 
-ExerciseFlow generates customized, accessible exercise instruction sheets for rehabilitation therapy. Designed specifically for elderly patients and caregivers, it combines:
+After stroke, recovery depends on consistent exercise. But accessing rehabilitation is hard: therapists are expensive, transportation is difficult, and patients often have cognitive or vision challenges. Caregivers lack training. Exercise sheets are confusing. Recovery stalls.
 
-- **Colorblind-safe design** (Okabe-Ito palette)
-- **Large, readable text** for low vision
-- **Shape + number identification** for cognitive accessibility
-- **Multiple output formats** (single page, multi-page, icon-only)
-- **Zero dependencies** for web interface (pure HTML/JS)
-- **Works completely offline**
+**Stroke Recovery Program Cards put evidence-based rehabilitation directly into the hands of patients and caregivers.** Personalized. Accessible. Printable. Low-cost. Works anywhere.
 
 ## Features
 
-✅ **4 Exercise Categories**: Hand (★), Shoulder (●), Arm (■), Leg (▲)  
-✅ **Multiple Output Formats**: Quadrant (4 on 1), Large Cards (1 per page), Icons Only  
-✅ **Accessibility First**: Tested for colorblindness, large typography, clear visual hierarchy  
-✅ **Two Interfaces**: Browser (caregiver-friendly) + CLI (power users)  
-✅ **Offline Capable**: No internet required after download  
-✅ **Printable**: Designed for A4 landscape, laminate-friendly  
+- **4 Exercise Categories**: Hand (★), Shoulder (●), Arm (■), Leg (▲)
+- **Multiple Output Formats**: 4 on 1 page, large single cards, icons only
+- **Accessibility First**: Colorblind-safe Okabe-Ito palette, large typography, shape + number ID
+- **Two Interfaces**: Browser (caregiver-friendly) + CLI (power users)
+- **Works Offline**: No internet, no subscriptions, no cloud dependency
+- **Print & Laminate**: A4 landscape, laminate-friendly for daily goal tracking
 
 ## Quick Start
 
-### 🌐 Browser (No Installation)
+### Browser (No Installation)
 
-1. Download `web/caregiver-app.html`
-2. Open in any web browser
-3. Create sheets immediately
+1. Open `web/caregiver-app.html` in any browser
+2. Create a personalized exercise program in 5 minutes
+3. Print, laminate, track progress
 
-**Live demo**: https://username.github.io/exerciseflow/web/caregiver-app.html
-
-### 💻 Command Line
+### Command Line
 
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Generate sheet: 4 cards on 1 page
+# Generate card set: 4 cards on 1 page
 python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 -o output.pdf
 
-# Generate sheet: Large cards (1 per page, 2x size)
+# Generate large cards: 1 per page (2x size, easier to read)
 python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout single -o output.pdf
 ```
 
@@ -57,48 +50,47 @@ python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout si
 | **Arm** | ■ | Green (#009E73) | Nose Touch, Elbow Bend, Water Bottle Hold |
 | **Leg** | ▲ | Purple (#CC79A7) | Knee to Chest Lift, Seated Leg Raise, Leg Up with Toes |
 
+## Who Is This For?
+
+### Stroke Patients
+Clear daily structure. Accessible design that works even with vision or memory challenges. Track progress and build confidence on your own timeline.
+
+### Caregivers
+No PT background needed. Generate a personalized exercise routine in 5 minutes. Print it. Laminate it. Your patient does 1-2 cards daily. You track completion.
+
+### Clinical Administrators
+Standardize exercise delivery across your facility. Generate customized cards for each patient. Evidence-based, accessible, scalable.
+
 ## Design System
 
-### Accessibility Features
-
-- **Colorblind Safe**: Uses Okabe-Ito palette (distinguishable for all color vision types)
-- **Typography**: 24pt steps, 22pt headings, 0.8cm line spacing
-- **Visual Hierarchy**: Bold shape + number (★1, ●2, ■3, ▲4) for instant identification
-- **Goal Tracking**: 2.2cm box (top-right) with category-matched border for daily checkmarks
-- **Laminate Friendly**: Works with whiteboard markers on laminated sheets
-
-### Target Users
-
-- Elderly patients (65+) with vision or cognitive impairment
-- Post-stroke rehabilitation
-- Physical therapy compliance tracking
-- Home care coordination
-- Care facility group sessions
+- **Colorblind Safe**: Okabe-Ito palette — distinguishable for all color vision types
+- **Large Typography**: 24pt steps, 22pt headings, 0.8cm line spacing
+- **Shape + Number ID**: ★1, ●2, ■3, ▲4 — instant identification for cognitive accessibility
+- **Goal Tracking Box**: 2.2cm box (top-right) with category-matched border for daily checkmarks
+- **Laminate Friendly**: Works with dry-erase markers on laminated sheets
 
 ## Project Structure
 
 ```
-exerciseflow/
+srp-cards/
 ├── README.md                 # This file
 ├── LICENSE                   # MIT License
 ├── requirements.txt          # Python dependencies
 ├── .gitignore               # Git ignore rules
 │
 ├── cli/
-│   └── exercise-sheet       # Python CLI tool (executable)
+│   └── exercise-sheet       # Python CLI tool
 │
 ├── web/
-│   ├── caregiver-app.html   # Consumer-facing interface
-│   ├── system.html          # Admin/documentation interface
+│   ├── caregiver-app.html   # Caregiver interface (primary)
+│   ├── system.html          # Admin documentation
 │   └── index.html           # Developer tool
 │
 ├── docs/
-│   ├── DEPLOYMENT.md        # Deployment guide
-│   ├── DESIGN.md            # Design system & accessibility
-│   └── API.md               # CLI API reference
+│   ├── GITHUB_SETUP.md      # Setup guide
+│   └── QUICK_PUSH.md        # Quick reference
 │
-└── examples/
-    └── sample-output.pdf    # Example generated PDF
+└── examples/                # Sample outputs
 ```
 
 ## Installation
@@ -112,53 +104,30 @@ exerciseflow/
 ### Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/exerciseflow.git
-cd exerciseflow
+git clone https://github.com/bayanimills/SRP-Cards---Stroke-Recovery-Program-Cards.git
+cd SRP-Cards---Stroke-Recovery-Program-Cards
 
-# Install Python dependencies
 pip install -r requirements.txt
-
-# Make CLI executable (Linux/Mac)
 chmod +x cli/exercise-sheet
 
-# Open browser interface
+# Open caregiver interface
 open web/caregiver-app.html
-# or
-python3 -m http.server 8000  # Then visit http://localhost:8000/web/caregiver-app.html
 ```
 
-## Usage Examples
+## Usage
 
 ### Browser Interface
 
-1. Open `web/caregiver-app.html` in browser
-2. Click "Create Sheet"
-3. Enter patient name and ability level
-4. Select one exercise per category
-5. Choose output format
-6. Click "Generate & Print"
+1. Open `web/caregiver-app.html`
+2. Enter patient name and ability level
+3. Select one exercise per category
+4. Choose output format (4-on-1 or large cards)
+5. Generate & Print
 
-### CLI Examples
-
-```bash
-# Default: 4 cards on 1 A4 page
-python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0
-
-# Single card format: 1 card per page, 4 pages total
-python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout single
-
-# Custom filename
-python3 cli/exercise-sheet -1 hand_1 -2 shoulder_0 -3 arm_2 -4 leg_1 -o patient-john.pdf
-
-# Help
-python3 cli/exercise-sheet --help
-```
-
-### Argument Reference
+### CLI Reference
 
 ```
--1, --pos1 TYPE_INDEX    Hand exercise (type_index format, e.g., hand_0)
+-1, --pos1 TYPE_INDEX    Hand exercise (e.g., hand_0)
 -2, --pos2 TYPE_INDEX    Shoulder exercise
 -3, --pos3 TYPE_INDEX    Arm exercise
 -4, --pos4 TYPE_INDEX    Leg exercise
@@ -170,75 +139,52 @@ python3 cli/exercise-sheet --help
 
 1. **Color**: Print in color for best accessibility (colorblind-safe palette)
 2. **Paper**: A4 landscape orientation
-3. **Lamination**: Optional but recommended for durability
+3. **Lamination**: Recommended for durability and daily tracking
 4. **Markers**: Use dry-erase markers on laminated sheets for goal tracking
-
-## Documentation
-
-- [📋 Deployment Guide](docs/DEPLOYMENT.md) - Installation and deployment instructions
-- [🎨 Design System](docs/DESIGN.md) - Accessibility features and design rationale
-- [🔧 API Reference](docs/API.md) - CLI tool documentation
 
 ## Contributing
 
 Contributions welcome! Please:
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit changes (`git commit -m 'Add your feature'`)
+4. Push to branch (`git push origin feature/your-feature`)
 5. Open a Pull Request
 
-### Areas for Contribution
+### Roadmap
 
 - [ ] Custom exercise library editor
 - [ ] Patient progress tracking dashboard
-- [ ] Mobile app version (React Native)
+- [ ] Mobile app version
 - [ ] Multi-language support
 - [ ] Ability-level variants
-- [ ] EMR system integration
-- [ ] Accessibility testing
-
-## Roadmap
-
-- **v1.1** - Custom exercise library, patient profiles
-- **v1.2** - Progress tracking, calendar integration
-- **v2.0** - Mobile app, multi-language support
-- **v2.5** - EMR/EHR integrations
+- [ ] EMR/EHR system integration
 
 ## License
 
-MIT License © 2026 P&L Dwyer Engineering. See [LICENSE](LICENSE) file for details.
+MIT License. See [LICENSE](LICENSE) file for details.
 
 ## Credits
 
 Built by **P&L Dwyer Engineering** in partnership with **Australian Bitcoin Industry Body (ABIB)**.
 
-Designed with accessibility-first approach for elderly rehabilitation.
-
-## Support
-
-- 📖 [Full Documentation](docs/)
-- 🐛 [Report Issues](https://github.com/yourusername/exerciseflow/issues)
-- 💬 [Discussions](https://github.com/yourusername/exerciseflow/discussions)
+Designed with an accessibility-first approach for post-stroke rehabilitation.
 
 ## FAQ
 
-**Q: Can I add my own exercises?**  
-A: Currently, you modify the Python script. Future version will have web-based editor.
+**Q: Can I add my own exercises?**
+A: Currently, you modify the Python script. A web-based editor is on the roadmap.
 
-**Q: Is internet required?**  
+**Q: Is internet required?**
 A: No. Both web interface and CLI work completely offline.
 
-**Q: Can I use this with patients?**  
-A: Yes. Designed specifically for patient use. Print and laminate for durability.
+**Q: What if a patient is colorblind?**
+A: The Okabe-Ito palette is tested to be distinguishable for all color vision types. The shape + number system provides redundant identification.
 
-**Q: What if a patient is colorblind?**  
-A: The palette (Okabe-Ito) is tested to be distinguishable for all color vision types.
-
-**Q: Can I track patient progress?**  
-A: Currently sheets are static. Progress tracking is on the roadmap.
+**Q: Can I track patient progress?**
+A: Laminate the cards and use dry-erase markers for daily goal tracking. Digital progress tracking is on the roadmap.
 
 ---
 
-**Made with ❤️ for elderly rehabilitation**
+*Professional rehabilitation, accessible to everyone. Generate. Print. Progress.*
