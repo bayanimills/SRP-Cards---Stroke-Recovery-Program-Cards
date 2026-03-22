@@ -1,0 +1,182 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(to bottom right, #eff6ff, #f8fafc, #f0fdf4); min-height: 100vh; padding: 2rem 1rem;">
+<div style="max-width: 900px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem; color: #1e293b;">Exercise Sheet Generator</h1>
+        <p style="font-size: 1rem; color: #64748b; line-height: 1.6;">Select one exercise from each category to create a custom rehabilitation sheet</p>
+    </div>
+
+    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 1rem; color: #1e293b;">Output format</h2>
+        <div style="display: flex; gap: 1rem;">
+            <label style="flex: 1; cursor: pointer;">
+                <input type="radio" id="layoutFour" name="layout" value="four" checked onchange="updateCommand();" />
+                <span style="padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; display: block; text-align: center; font-size: 0.875rem; font-weight: 600; color: #64748b; transition: all 0.2s;">4 cards on 1 page</span>
+            </label>
+            <label style="flex: 1; cursor: pointer;">
+                <input type="radio" id="layoutSingle" name="layout" value="single" onchange="updateCommand();" />
+                <span style="padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; display: block; text-align: center; font-size: 0.875rem; font-weight: 600; color: #64748b; transition: all 0.2s;">1 card per page (4 pages, 2x size)</span>
+            </label>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;" id="grid"></div>
+
+    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2 style="font-size: 1.125rem; font-weight: 700; color: #1e293b;">Preview</h2>
+            <button style="background: transparent; border: 1px solid #cbd5e1; padding: 0.375rem 0.75rem; border-radius: 0.375rem; font-size: 0.75rem; cursor: pointer; color: #1e293b;" onclick="togglePreview()">Show</button>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; padding: 1rem; background: #f8fafc; border-radius: 0.5rem; border: 1px solid #e2e8f0; display: none;" id="previewGrid"></div>
+    </div>
+
+    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <h2 style="font-size: 1.125rem; font-weight: 700; margin-bottom: 0.75rem; color: #1e293b;">Generate PDF</h2>
+        <div style="font-size: 0.8125rem; color: #64748b; margin-bottom: 0.625rem;">Copy this command and run it on your computer:</div>
+        <div id="commandBox" style="background: #1e293b; color: #e2e8f0; padding: 0.75rem; border-radius: 0.375rem; font-family: monospace; font-size: 0.75rem; margin-bottom: 0.75rem; overflow-x: auto; word-break: break-all;">python3 exercise-sheet -1 hand_0 -2 shoulder_0 -3 arm_0 -4 leg_0 -o my-exercise-sheet.pdf</div>
+        <button id="copyButton" style="background: transparent; border: 1px solid #cbd5e1; padding: 0.5rem 0.75rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.8125rem; font-weight: 600; color: #1e293b;" onclick="copyCommand()">Copy command</button>
+        <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.75rem;">Make sure <code style="background: #f1f5f9; padding: 0.125rem 0.25rem; border-radius: 0.25rem;">exercise-sheet</code> is in your current directory</div>
+    </div>
+</div>
+</div>
+
+<script>
+const exercises = {
+    hand: { hex: '#0072B2', shape: '★', num: 1, title: 'HAND EXERCISES', list: ['STRESS BALL SQUEEZE', 'FINGER PINCHES', 'WATER BOTTLE SQUEEZE'] },
+    shoulder: { hex: '#E69F00', shape: '●', num: 2, title: 'SHOULDER EXERCISES', list: ['GENTLE ARM LIFT', 'CLASPED HANDS', 'SHOULDER CIRCLES'] },
+    arm: { hex: '#009E73', shape: '■', num: 3, title: 'ARM EXERCISES', list: ['NOSE TOUCH', 'ELBOW BEND', 'WATER BOTTLE HOLD'] },
+    leg: { hex: '#CC79A7', shape: '▲', num: 4, title: 'LEG EXERCISES', list: ['KNEE TO CHEST LIFT', 'SEATED LEG RAISE', 'LEG UP WITH TOES UP AND DOWN'] }
+};
+
+const selections = { hand: 0, shoulder: 0, arm: 0, leg: 0 };
+
+function updateSelection(category, index) {
+    selections[category] = parseInt(index);
+    renderList(category);
+    renderPreview();
+    updateCommand();
+}
+
+function addExercise(category) {
+    const input = document.getElementById(category + 'Input');
+    const name = input.value.trim();
+    if (name) {
+        exercises[category].list.push(name);
+        input.value = '';
+        const select = document.getElementById(category + 'Select');
+        const option = document.createElement('option');
+        option.value = exercises[category].list.length - 1;
+        option.textContent = name;
+        select.appendChild(option);
+        renderList(category);
+    }
+}
+
+function removeExercise(category, index) {
+    if (exercises[category].list.length > 1) {
+        exercises[category].list.splice(index, 1);
+        const select = document.getElementById(category + 'Select');
+        select.options[index].remove();
+        if (selections[category] >= exercises[category].list.length) {
+            selections[category] = exercises[category].list.length - 1;
+            select.value = selections[category];
+        }
+        updateSelection(category, selections[category]);
+    }
+}
+
+function renderList(category) {
+    const list = document.getElementById(category + 'List');
+    list.innerHTML = exercises[category].list.map((ex, idx) => 
+        `<div style="display: flex; justify-content: space-between; align-items: center; padding: 0.375rem; background: #f8fafc; border-radius: 0.25rem; margin-bottom: 0.25rem; border: 1px solid #e2e8f0; ${idx === selections[category] ? 'border-left: 3px solid ' + exercises[category].hex + '; padding-left: 2px;' : ''}">
+            <span style="color: #1e293b; flex: 1; font-size: 0.75rem;">${idx === selections[category] ? '✓ ' : ''}${ex}</span>
+            ${exercises[category].list.length > 1 ? `<button style="background: transparent; border: none; color: #94a3b8; cursor: pointer; font-size: 0.75rem;" onclick="removeExercise('${category}', ${idx})">✕</button>` : ''}
+        </div>`
+    ).join('');
+}
+
+function renderPreview() {
+    const preview = document.getElementById('previewGrid');
+    preview.innerHTML = ['hand', 'shoulder', 'arm', 'leg'].map(cat => {
+        const data = exercises[cat];
+        return `<div style="background: white; border-left: 4px solid ${data.hex}; border-radius: 0.375rem; padding: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.25rem;">${data.shape}</span>
+                <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">Card #${data.num}</span>
+            </div>
+            <div style="font-size: 0.8125rem; font-weight: 600; margin-top: 0.25rem; color: ${data.hex};">${data.list[selections[cat]]}</div>
+        </div>`;
+    }).join('');
+}
+
+function updateCommand() {
+    const layout = document.querySelector('input[name="layout"]:checked').value;
+    const layoutFlag = layout === 'single' ? ' --layout single' : '';
+    const cmd = `python3 exercise-sheet -1 hand_${selections.hand} -2 shoulder_${selections.shoulder} -3 arm_${selections.arm} -4 leg_${selections.leg}${layoutFlag} -o my-exercise-sheet.pdf`;
+    document.getElementById('commandBox').textContent = cmd;
+}
+
+function togglePreview() {
+    const grid = document.getElementById('previewGrid');
+    const btn = event.target;
+    grid.style.display = grid.style.display === 'none' ? 'grid' : 'none';
+    btn.textContent = grid.style.display === 'none' ? 'Show' : 'Hide';
+}
+
+function copyCommand() {
+    const text = document.getElementById('commandBox').textContent;
+    navigator.clipboard.writeText(text);
+    const btn = document.getElementById('copyButton');
+    btn.style.background = '#3b82f6';
+    btn.style.color = 'white';
+    btn.style.borderColor = '#3b82f6';
+    btn.textContent = 'Copied!';
+    setTimeout(() => {
+        btn.style.background = 'transparent';
+        btn.style.color = '#1e293b';
+        btn.style.borderColor = '#cbd5e1';
+        btn.textContent = 'Copy command';
+    }, 2000);
+}
+
+function init() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = Object.entries(exercises).map(([category, data]) => `
+        <div style="background: white; border-left: 4px solid ${data.hex}; border-radius: 0.5rem; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; font-weight: 600; font-size: 0.9375rem; color: ${data.hex};">
+                <span style="font-size: 1.5rem;">${data.shape}</span>
+                <div>
+                    <div>${data.title}</div>
+                    <div style="font-size: 0.8125rem; color: #64748b;">Card #${data.num}</div>
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.375rem; color: #1e293b;">Select exercise</label>
+                <select id="${category}Select" onchange="updateSelection('${category}', this.value);" style="width: 100%; padding: 0.5rem; border: 2px solid ${data.hex}; border-radius: 0.375rem; font-size: 0.8125rem; background: white; color: #1e293b;">
+                    ${data.list.map((ex, idx) => `<option value="${idx}">${ex}</option>`).join('')}
+                </select>
+            </div>
+            <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-left: 4px solid ${data.hex}; border-radius: 0.375rem; padding: 0.5rem; font-size: 0.8125rem; margin-bottom: 1rem;">
+                <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.25rem;">Selected for Card #${data.num}:</div>
+                <div style="font-weight: 600; font-size: 0.8125rem; color: ${data.hex};">${data.list[selections[category]]}</div>
+            </div>
+            <div style="display: flex; gap: 0.375rem; margin-bottom: 1rem;">
+                <input type="text" id="${category}Input" placeholder="Add new exercise..." style="flex: 1; padding: 0.5rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.8125rem; background: white; color: #1e293b;" />
+                <button onclick="addExercise('${category}')" style="padding: 0.5rem 0.75rem; background: transparent; border: 1px solid #cbd5e1; border-radius: 0.375rem; cursor: pointer; font-size: 0.8125rem; font-weight: 600; color: ${data.hex};">+</button>
+            </div>
+            <div style="font-size: 0.75rem; max-height: 150px; overflow-y: auto;" id="${category}List"></div>
+        </div>
+    `).join('');
+
+    Object.keys(exercises).forEach(cat => renderList(cat));
+    renderPreview();
+}
+
+document.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && e.target.id.endsWith('Input')) {
+        const category = e.target.id.replace('Input', '');
+        addExercise(category);
+    }
+});
+
+init();
+</script>
