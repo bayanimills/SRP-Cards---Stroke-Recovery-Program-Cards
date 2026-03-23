@@ -411,7 +411,7 @@
 
 <!-- Tracking Sheet Page -->
 <div id="trackingPage" style="display: none; padding: 2rem 1rem;">
-    <div style="max-width: 1100px; margin: 0 auto;">
+    <div style="max-width: 100%; margin: 0 auto; padding: 0 1rem;">
         <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
             <div>
                 <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Monthly Tracking Sheet</h1>
@@ -661,22 +661,22 @@
 <script>
 const defaultExercises = {
     hand: { hex: '#0072B2', shape: '★', num: 1, title: 'Hand Exercises', list: [
-        { name: 'Stress Ball Squeeze', steps: ['Hold ball in right hand', 'Squeeze firmly (count to 3)', 'Slowly Release'] },
-        { name: 'Finger Pinches', steps: ['Touch thumb to each finger', 'Pinch and hold (count to 2)', 'Release and move to next finger'] },
-        { name: 'Water Bottle Squeeze', steps: ['Hold empty bottle in hand', 'Squeeze to crush bottle', 'Slowly release grip'] }
+        { name: 'Stress Ball Squeeze', steps: ['Hold ball in right hand', 'Squeeze firmly for 5 seconds', 'Slowly Release'] },
+        { name: 'Finger Pinches', steps: ['Touch thumb to each finger', 'Pinch and hold for 5 seconds', 'Release and move to next finger'] },
+        { name: 'Water Bottle Squeeze', steps: ['Hold empty bottle in hand', 'Squeeze bottle for 5 seconds', 'Slowly release grip'] }
     ]},
     shoulder: { hex: '#E69F00', shape: '●', num: 2, title: 'Shoulder Exercises', list: [
         { name: 'Gentle Arm Lift', steps: ['Rest arms at sides', 'Slowly raise arm forward', 'Hold for 5 seconds', 'Slowly lower arm'] },
-        { name: 'Clasped Hands', steps: ['Clasp hands together', 'Slowly Raise to ceiling', 'Hold in place for 10 seconds', 'Slowly Lower Arms'] },
+        { name: 'Clasped Hands', steps: ['Clasp hands together', 'Slowly Raise to ceiling', 'Hold in place for 5 seconds', 'Slowly Lower Arms'] },
         { name: 'Shoulder Circles', steps: ['Sit upright', 'Roll shoulders forward slowly', 'Roll shoulders backward slowly'] }
     ]},
     arm: { hex: '#009E73', shape: '■', num: 3, title: 'Arm Exercises', list: [
         { name: 'Nose Touch', steps: ['Extend arm fully', 'Slowly touch nose with finger', 'Extend arm back out', 'Repeat with other arm'] },
-        { name: 'Elbow Bend', steps: ['Rest arm on table', 'Slowly bend elbow to shoulder', 'Hold for 3 seconds', 'Slowly straighten arm'] },
-        { name: 'Water Bottle Hold', steps: ['Hold 300ml bottle', 'Elevate to 30°', 'Hold in place for 10', 'Slowly Lower'] }
+        { name: 'Elbow Bend', steps: ['Rest arm on table', 'Slowly bend elbow to shoulder', 'Hold for 5 seconds', 'Slowly straighten arm'] },
+        { name: 'Water Bottle Hold', steps: ['Hold 300ml bottle', 'Elevate to 30°', 'Hold in place for 5', 'Slowly Lower'] }
     ]},
     leg: { hex: '#CC79A7', shape: '▲', num: 4, title: 'Leg Exercises', list: [
-        { name: 'Knee to Chest Lift', steps: ['Lift knee as high as you can', 'Hold for 2 seconds', 'Slowly Lower Leg'] },
+        { name: 'Knee to Chest Lift', steps: ['Lift knee as high as you can', 'Hold for 5 seconds', 'Slowly Lower Leg'] },
         { name: 'Seated Leg Raise', steps: ['Sit with feet flat', 'Straighten one leg out', 'Hold for 5 seconds', 'Slowly lower foot'] },
         { name: 'Leg Up with Toes', steps: ['Raise leg straight out', 'Point toes up and hold', 'Point toes down and hold', 'Lower leg slowly'] }
     ]}
@@ -1010,19 +1010,14 @@ function renderTrackingSheet() {
 
     const container = document.getElementById('trackingTablesContainer');
 
-    // Find longest exercise name to calculate fixed column width
-    let longestName = 'Rate 1-10';
-    Object.values(exercises).forEach(data => {
-        data.list.forEach(ex => { if (ex.name.length > longestName.length) longestName = ex.name; });
-    });
-    // Approximate width: ~0.38em per character + 0.5rem padding at current font-size
-    const exColWidth = Math.ceil(longestName.length * 0.38 + 0.5) + 'em';
+    // Header column fixed width, day columns share the rest
+    const exColWidth = '7.5rem';
 
     const tableStyle = `width: 100%; border-collapse: collapse; font-size: inherit; table-layout: fixed;`;
     const dayCellStyle = 'border: 1px solid #94a3b8; padding: 0; background: #f1f5f9; text-align: center; font-size: 0.6em;';
     const dayEmptyStyle = 'border: 1px solid #94a3b8; padding: 0; text-align: center; height: 0.75rem;';
     const cellPad = '0.125rem 0.25rem';
-    const exColStyle = `border: 1px solid #94a3b8; padding: ${cellPad}; font-weight: 500; white-space: nowrap; overflow: hidden;`;
+    const exColStyle = `border: 1px solid #94a3b8; padding: ${cellPad}; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;`;
 
     let html = '';
     Object.entries(exercises).forEach(([cat, data]) => {
