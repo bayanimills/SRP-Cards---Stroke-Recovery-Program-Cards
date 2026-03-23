@@ -1010,14 +1010,14 @@ function renderTrackingSheet() {
 
     const container = document.getElementById('trackingTablesContainer');
 
-    // Header column fixed width, day columns share the rest
-    const exColWidth = '7.5rem';
+    // Header column fixed narrow width, day columns share the rest
+    const exColWidth = '5.5rem';
 
     const tableStyle = `width: 100%; border-collapse: collapse; font-size: inherit; table-layout: fixed;`;
     const dayCellStyle = 'border: 1px solid #94a3b8; padding: 0; background: #f1f5f9; text-align: center; font-size: 0.6em;';
     const dayEmptyStyle = 'border: 1px solid #94a3b8; padding: 0; text-align: center; height: 0.75rem;';
-    const cellPad = '0.125rem 0.25rem';
-    const exColStyle = `border: 1px solid #94a3b8; padding: ${cellPad}; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;`;
+    const cellPad = '0.125rem 0.2rem';
+    const exColStyle = `border: 1px solid #94a3b8; padding: ${cellPad}; font-weight: 500; overflow: hidden; text-overflow: ellipsis; max-width: 0; font-size: 0.55em; line-height: 1.2;`;
 
     let html = '';
     Object.entries(exercises).forEach(([cat, data]) => {
@@ -1026,7 +1026,7 @@ function renderTrackingSheet() {
                 <colgroup><col style="width: ${exColWidth};">${Array.from({length: daysInMonth}, () => '<col>').join('')}</colgroup>
                 <thead>
                     <tr>
-                        <th style="border: 1px solid #94a3b8; padding: ${cellPad}; background: ${data.hex}20; text-align: left; white-space: nowrap; color: ${data.hex}; font-weight: 700;">${data.shape} ${data.title}</th>
+                        <th style="border: 1px solid #94a3b8; padding: ${cellPad}; background: ${data.hex}20; text-align: left; color: ${data.hex}; font-weight: 700; font-size: 0.55em; line-height: 1.2; overflow: hidden; text-overflow: ellipsis;">${data.shape} ${data.title}</th>
                         ${Array.from({length: daysInMonth}, (_, i) =>
                             `<th style="${dayCellStyle}">${i+1}</th>`
                         ).join('')}
@@ -1049,7 +1049,7 @@ function renderTrackingSheet() {
             <colgroup><col style="width: ${exColWidth};">${Array.from({length: daysInMonth}, () => '<col>').join('')}</colgroup>
             <thead>
                 <tr>
-                    <th style="border: 1px solid #94a3b8; padding: ${cellPad}; background: #f1f5f9; text-align: left; white-space: nowrap; color: #64748b; font-weight: 700;">Comfort Level</th>
+                    <th style="border: 1px solid #94a3b8; padding: ${cellPad}; background: #f1f5f9; text-align: left; color: #64748b; font-weight: 700; font-size: 0.55em; line-height: 1.2; overflow: hidden; text-overflow: ellipsis;">Comfort Level</th>
                     ${Array.from({length: daysInMonth}, (_, i) =>
                         `<th style="${dayCellStyle}">${i+1}</th>`
                     ).join('')}
