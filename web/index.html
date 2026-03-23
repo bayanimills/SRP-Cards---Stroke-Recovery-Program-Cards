@@ -566,7 +566,7 @@ function updateFormatPreview() {
             data.list.forEach((ex, idx) => {
                 if (largeCardSelections[cat][idx]) {
                     const stepsHtml = ex.steps.map((s, i) => `<div style="font-size: 0.5625rem; color: #1e293b; margin-bottom: 0.125rem;">${i+1}. ${s}</div>`).join('');
-                    cards.push(`<div style="background: white; width: 180px; aspect-ratio: 210 / 297; padding: 0.625rem; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; flex-direction: column; flex-shrink: 0; border: 1px solid #e2e8f0;">
+                    cards.push(`<div style="background: white; width: 220px; aspect-ratio: 297 / 210; padding: 0.625rem; box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: flex; flex-direction: column; flex-shrink: 0; border: 1px solid #e2e8f0;">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                             <div style="display: flex; align-items: center; gap: 0.25rem;">
                                 <span style="font-size: 1.25rem; color: ${data.hex}; line-height: 1;">${data.shape}</span>
