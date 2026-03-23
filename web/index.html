@@ -180,14 +180,15 @@
         <div style="background: #f1f5f9; border-radius: 0.75rem; padding: 1.5rem;">
             <div id="trackingSheetPreview" style="background: white; aspect-ratio: 297 / 210; width: 100%; padding: 1.5rem; box-sizing: border-box; box-shadow: 0 2px 8px rgba(0,0,0,0.12); overflow: hidden; display: flex; flex-direction: column;">
                 <!-- Header: title left, bed/month right -->
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-shrink: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-shrink: 0;">
                     <div>
-                        <h2 style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0;">Stroke Recovery Program</h2>
-                        <p style="color: #64748b; margin: 0; font-size: 0.75rem;">Monthly Exercise Tracking Sheet</p>
+                        <h2 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0;">Stroke Recovery Program Goal Tracker</h2>
+                        <p style="color: #475569; margin: 0; font-size: 0.6875rem;">Daily Goal per Exercise</p>
+                        <p style="color: #64748b; margin: 0.125rem 0 0 0; font-size: 0.5rem; font-style: italic;">Set a goal the patient can reach about 80% of the time — e.g. if they can do 8 reps comfortably, set the goal at 10.</p>
                     </div>
                     <div style="text-align: right;">
                         <p style="color: #1e293b; font-weight: 600; margin: 0; font-size: 0.8125rem;" id="trackingNameDisplay">Bed #: ___</p>
-                        <p style="color: #64748b; margin: 0; font-size: 0.75rem;" id="trackingMonthDisplay">Month: _______________</p>
+                        <p style="color: #64748b; margin: 0; font-size: 0.75rem;" id="trackingMonthDisplay">_______________</p>
                     </div>
                 </div>
 
@@ -633,9 +634,9 @@ function updateTrackingBedDisplay() {
     if (monthVal) {
         const [y, m] = monthVal.split('-');
         const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-        monthDisplay.textContent = 'Month: ' + monthNames[parseInt(m)-1] + ' ' + y;
+        monthDisplay.textContent = monthNames[parseInt(m)-1] + ' ' + y;
     } else {
-        monthDisplay.textContent = 'Month: _______________';
+        monthDisplay.textContent = '_______________';
     }
     renderTrackingSheet();
 }
@@ -650,24 +651,27 @@ function renderTrackingSheet() {
 
     const container = document.getElementById('trackingTablesContainer');
 
+    const dayCellStyle = 'border: 1px solid #94a3b8; padding: 0; background: #f1f5f9; text-align: center; width: 1.1em; max-width: 1.1em; font-size: 0.5em;';
+    const dayEmptyStyle = 'border: 1px solid #94a3b8; padding: 0; text-align: center; height: 0.75rem; width: 1.1em; max-width: 1.1em;';
+
     let html = '';
     Object.entries(exercises).forEach(([cat, data]) => {
         html += `<div style="margin-bottom: 0.375rem;">
             <h3 style="font-size: 0.5625rem; font-weight: 700; color: ${data.hex}; margin: 0 0 0.125rem 0;">${data.shape} ${data.title}</h3>
-            <table style="width: 100%; border-collapse: collapse; font-size: inherit; table-layout: fixed;">
+            <table style="width: 100%; border-collapse: collapse; font-size: inherit;">
                 <thead>
                     <tr>
-                        <th style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: ${data.hex}20; text-align: left; width: 80px;">Exercise</th>
+                        <th style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: ${data.hex}20; text-align: left;">Exercise</th>
                         ${Array.from({length: daysInMonth}, (_, i) =>
-                            `<th style="border: 1px solid #94a3b8; padding: 0.0625rem; background: #f1f5f9; text-align: center;">${i+1}</th>`
+                            `<th style="${dayCellStyle}">${i+1}</th>`
                         ).join('')}
                     </tr>
                 </thead>
                 <tbody>
                     ${data.list.map(exercise => `<tr>
-                        <td style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: ${data.hex}10; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${exercise.name}</td>
+                        <td style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: ${data.hex}10; font-weight: 500; white-space: nowrap;">${exercise.name}</td>
                         ${Array.from({length: daysInMonth}, () =>
-                            `<td style="border: 1px solid #94a3b8; padding: 0.0625rem; text-align: center; height: 0.875rem;"></td>`
+                            `<td style="${dayEmptyStyle}"></td>`
                         ).join('')}
                     </tr>`).join('')}
                 </tbody>
@@ -677,12 +681,12 @@ function renderTrackingSheet() {
 
     html += `<div style="margin-bottom: 0.25rem;">
         <h3 style="font-size: 0.5625rem; font-weight: 700; color: #64748b; margin: 0 0 0.125rem 0;">Comfort Level</h3>
-        <table style="width: 100%; border-collapse: collapse; font-size: inherit; table-layout: fixed;">
+        <table style="width: 100%; border-collapse: collapse; font-size: inherit;">
             <thead>
                 <tr>
-                    <th style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: #f1f5f9; text-align: left; width: 80px;">Metric</th>
+                    <th style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: #f1f5f9; text-align: left;">Metric</th>
                     ${Array.from({length: daysInMonth}, (_, i) =>
-                        `<th style="border: 1px solid #94a3b8; padding: 0.0625rem; background: #f1f5f9; text-align: center;">${i+1}</th>`
+                        `<th style="${dayCellStyle}">${i+1}</th>`
                     ).join('')}
                 </tr>
             </thead>
@@ -690,7 +694,7 @@ function renderTrackingSheet() {
                 <tr>
                     <td style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: #f8fafc; font-weight: 500;">Rate 1-10</td>
                     ${Array.from({length: daysInMonth}, () =>
-                        `<td style="border: 1px solid #94a3b8; padding: 0.0625rem; text-align: center; height: 0.875rem;"></td>`
+                        `<td style="${dayEmptyStyle}"></td>`
                     ).join('')}
                 </tr>
             </tbody>
