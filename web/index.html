@@ -724,19 +724,19 @@ function renderTrackingSheet() {
     const exColWidth = Math.ceil(longestName.length * 0.38 + 0.5) + 'em';
 
     const tableStyle = `width: 100%; border-collapse: collapse; font-size: inherit; table-layout: fixed;`;
-    const dayCellStyle = 'border: 1px solid #94a3b8; padding: 0; background: #f1f5f9; text-align: center; font-size: 0.5em;';
+    const dayCellStyle = 'border: 1px solid #94a3b8; padding: 0; background: #f1f5f9; text-align: center; font-size: 0.6em;';
     const dayEmptyStyle = 'border: 1px solid #94a3b8; padding: 0; text-align: center; height: 0.75rem;';
-    const exColStyle = 'border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; font-weight: 500; white-space: nowrap; overflow: hidden;';
+    const cellPad = '0.125rem 0.25rem';
+    const exColStyle = `border: 1px solid #94a3b8; padding: ${cellPad}; font-weight: 500; white-space: nowrap; overflow: hidden;`;
 
     let html = '';
     Object.entries(exercises).forEach(([cat, data]) => {
         html += `<div style="margin-bottom: 0.375rem;">
-            <h3 style="font-size: 0.5625rem; font-weight: 700; color: ${data.hex}; margin: 0 0 0.125rem 0;">${data.shape} ${data.title}</h3>
             <table style="${tableStyle}">
                 <colgroup><col style="width: ${exColWidth};">${Array.from({length: daysInMonth}, () => '<col>').join('')}</colgroup>
                 <thead>
                     <tr>
-                        <th style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: ${data.hex}20; text-align: left; white-space: nowrap;">Exercise</th>
+                        <th style="border: 1px solid #94a3b8; padding: ${cellPad}; background: ${data.hex}20; text-align: left; white-space: nowrap; color: ${data.hex}; font-weight: 700;">${data.shape} ${data.title}</th>
                         ${Array.from({length: daysInMonth}, (_, i) =>
                             `<th style="${dayCellStyle}">${i+1}</th>`
                         ).join('')}
@@ -755,12 +755,11 @@ function renderTrackingSheet() {
     });
 
     html += `<div style="margin-bottom: 0.25rem;">
-        <h3 style="font-size: 0.5625rem; font-weight: 700; color: #64748b; margin: 0 0 0.125rem 0;">Comfort Level</h3>
         <table style="${tableStyle}">
             <colgroup><col style="width: ${exColWidth};">${Array.from({length: daysInMonth}, () => '<col>').join('')}</colgroup>
             <thead>
                 <tr>
-                    <th style="border: 1px solid #94a3b8; padding: 0.125rem 0.25rem; background: #f1f5f9; text-align: left; white-space: nowrap;">Metric</th>
+                    <th style="border: 1px solid #94a3b8; padding: ${cellPad}; background: #f1f5f9; text-align: left; white-space: nowrap; color: #64748b; font-weight: 700;">Comfort Level</th>
                     ${Array.from({length: daysInMonth}, (_, i) =>
                         `<th style="${dayCellStyle}">${i+1}</th>`
                     ).join('')}
