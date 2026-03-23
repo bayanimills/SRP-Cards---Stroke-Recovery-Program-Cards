@@ -4,13 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SRP Cards — Stroke Recovery Program</title>
+<style>
+/* Mobile hamburger menu */
+#mobileMenuBtn { display: none; }
+#navLinks { display: flex; gap: 1rem; }
+
+@media (max-width: 768px) {
+    #mobileMenuBtn {
+        display: block; background: none; border: none; font-size: 1.5rem;
+        cursor: pointer; padding: 0.25rem; color: #1e293b; line-height: 1;
+    }
+    #navLinks {
+        display: none; position: absolute; top: 100%; left: 0; right: 0;
+        background: white; flex-direction: column; gap: 0; padding: 0.5rem 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 200;
+    }
+    #navLinks.open { display: flex; }
+    #navLinks button {
+        width: 100%; text-align: left; padding: 0.75rem 1.5rem !important;
+        border-bottom: none !important;
+    }
+
+    /* Stack 2-col and 3-col grids */
+    .mob-stack { grid-template-columns: 1fr !important; }
+
+    /* Page padding */
+    .mob-page { padding: 1rem 0.5rem !important; }
+
+    /* Reduce container padding */
+    .mob-card { padding: 1rem !important; }
+}
+</style>
 </head>
 <body style="margin: 0; padding: 0;">
 <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%); min-height: 100vh; padding: 0; margin: 0;">
 
 <!-- Navigation -->
 <nav style="background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: relative;">
         <div style="display: flex; align-items: center; gap: 0.5rem;">
             <div style="font-size: 1.5rem;">🏥</div>
             <div>
@@ -18,20 +49,21 @@
                 <div style="font-size: 0.75rem; color: #64748b;">Recovery in Motion</div>
             </div>
         </div>
-        <div style="display: flex; gap: 1rem;">
-            <button onclick="showPage('onboarding')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="onboardingBtn">Onboarding</button>
-            <button onclick="showPage('dashboard')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="dashboardBtn">Select Bed</button>
-            <button onclick="showPage('create')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="createBtn">Print Cards</button>
-            <button onclick="showPage('tracking')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="trackingBtn">Tracking Sheet</button>
-            <button onclick="showPage('cardOptions')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="cardOptionsBtn">Card Options</button>
-            <button onclick="showPage('help')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="helpBtn">Help</button>
-            <button onclick="showPage('offboarding')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="offboardingBtn">Offboarding</button>
+        <button id="mobileMenuBtn" onclick="document.getElementById('navLinks').classList.toggle('open')">&#9776;</button>
+        <div id="navLinks">
+            <button onclick="showPage('onboarding');document.getElementById('navLinks').classList.remove('open')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="onboardingBtn">Onboarding</button>
+            <button onclick="showPage('dashboard');document.getElementById('navLinks').classList.remove('open')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="dashboardBtn">Select Bed</button>
+            <button onclick="showPage('create');document.getElementById('navLinks').classList.remove('open')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="createBtn">Print Cards</button>
+            <button onclick="showPage('tracking');document.getElementById('navLinks').classList.remove('open')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="trackingBtn">Tracking Sheet</button>
+            <button onclick="showPage('cardOptions');document.getElementById('navLinks').classList.remove('open')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="cardOptionsBtn">Card Options</button>
+            <button onclick="showPage('help');document.getElementById('navLinks').classList.remove('open')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="helpBtn">Help</button>
+            <button onclick="showPage('offboarding');document.getElementById('navLinks').classList.remove('open')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="offboardingBtn">Offboarding</button>
         </div>
     </div>
 </nav>
 
 <!-- Onboarding Page -->
-<div id="onboardingPage" style="display: none; padding: 2rem 1rem;">
+<div id="onboardingPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 900px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Participant Onboarding</h1>
@@ -46,7 +78,7 @@
         <!-- Deployment Setting -->
         <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             <h2 style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0 0 1rem 0;">Care Setting</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" id="onboardSettingGrid">
+            <div class="mob-stack" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" id="onboardSettingGrid">
                 <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer;">
                     <input type="radio" name="careSetting" value="acute" style="margin-top: 0.2rem;" onchange="onCareSettingChange()" />
                     <div>
@@ -92,7 +124,7 @@
             </div>
             <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.8125rem;">No participant contact. Enter scores from existing clinical records. Select "Not available" if a score is not in the record.</p>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
+            <div class="mob-stack" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
                 <!-- GCS -->
                 <div>
                     <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">GCS <span style="color: #94a3b8; font-weight: 400;">(3-15)</span></label>
@@ -175,7 +207,7 @@
             </div>
             <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.8125rem;">FAST (Frenchay Aphasia Screening Test) — proceed / defer decision point.</p>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div class="mob-stack" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
                 <div>
                     <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">FAST Comprehension</label>
                     <select id="gateFASTComp" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier1()">
@@ -249,7 +281,7 @@
             </div>
             <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.8125rem;">Determines card set complexity, format adaptations, and session parameters.</p>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div class="mob-stack" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
                 <div>
                     <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">MoCA Total Score <span style="color: #94a3b8; font-weight: 400;">(0-30)</span></label>
                     <select id="gateMoCA" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier2()">
@@ -289,7 +321,7 @@
 </div>
 
 <!-- Dashboard Page -->
-<div id="dashboardPage" style="display: none; padding: 2rem 1rem;">
+<div id="dashboardPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 1200px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Select Bed</h1>
@@ -329,7 +361,7 @@
             </script>
             <div id="bedNumberInfo" style="display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.5rem; padding: 1.5rem; text-align: center; margin-top: 1.5rem;">
                 <h3 style="font-size: 1.125rem; font-weight: 600; color: #1e293b; margin: 0 0 1rem 0;">Bed <span id="bedNumberDisplay"></span></h3>
-                <div style="display: flex; gap: 1rem; justify-content: center;">
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                     <button onclick="showPage('create')" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Create Card Set</button>
                     <button onclick="showPage('tracking')" style="padding: 0.75rem 1.5rem; background: white; color: #10b981; border: 2px solid #10b981; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">View Tracking Sheet</button>
                 </div>
@@ -345,7 +377,7 @@
 </div>
 
 <!-- Print Cards Page -->
-<div id="createPage" style="display: none; padding: 2rem 1rem;">
+<div id="createPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 900px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Create Recovery Card Set</h1>
@@ -358,7 +390,7 @@
                 <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
                 <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Choose Format</h2>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;" id="formatCards">
+            <div class="mob-stack" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;" id="formatCards">
                 <label style="cursor: pointer; display: block;">
                     <input type="radio" name="outputFormat" value="single" checked onchange="updateFormatSelection();" style="position: absolute; opacity: 0; pointer-events: none;" />
                     <div id="formatCard-single" style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 0.5rem; padding: 1rem; text-align: center; transition: all 0.2s;">
@@ -411,9 +443,9 @@
 </div>
 
 <!-- Tracking Sheet Page -->
-<div id="trackingPage" style="display: none; padding: 2rem 1rem;">
+<div id="trackingPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 100%; margin: 0 auto; padding: 0 1rem;">
-        <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+        <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
                 <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Monthly Tracking Sheet</h1>
                 <p style="color: #64748b; margin: 0;">Print this sheet to track daily exercise completion for the month</p>
@@ -438,8 +470,8 @@
         </div>
 
         <!-- Tracking Sheet PDF Preview (landscape, always visible) -->
-        <div style="background: #f1f5f9; border-radius: 0.75rem; padding: 1.5rem;">
-            <div id="trackingSheetPreview" style="background: white; aspect-ratio: 297 / 210; width: 100%; padding: 1.5rem; box-sizing: border-box; box-shadow: 0 2px 8px rgba(0,0,0,0.12); overflow: hidden; display: flex; flex-direction: column;">
+        <div style="background: #f1f5f9; border-radius: 0.75rem; padding: 1.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+            <div id="trackingSheetPreview" style="background: white; aspect-ratio: 297 / 210; width: 100%; min-width: 600px; padding: 1.5rem; box-sizing: border-box; box-shadow: 0 2px 8px rgba(0,0,0,0.12); overflow: hidden; display: flex; flex-direction: column;">
                 <!-- Header: title left, bed/month right -->
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-shrink: 0;">
                     <div>
@@ -468,7 +500,7 @@
 </div>
 
 <!-- Card Options Page -->
-<div id="cardOptionsPage" style="display: none; padding: 2rem 1rem;">
+<div id="cardOptionsPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 900px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Card Options</h1>
@@ -526,7 +558,7 @@
 </div>
 
 <!-- Help Page -->
-<div id="helpPage" style="display: none; padding: 2rem 1rem;">
+<div id="helpPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 800px; margin: 0 auto;">
         <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 2rem 0;">How Stroke Recovery Cards Work</h1>
 
@@ -660,7 +692,7 @@
 </div>
 
 <!-- Offboarding Page -->
-<div id="offboardingPage" style="display: none; padding: 2rem 1rem;">
+<div id="offboardingPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 900px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Offboarding</h1>
@@ -710,7 +742,7 @@
             <h2 style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Session Performance Data</h2>
             <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.8125rem;">Enter current session metrics to evaluate offboarding triggers. Performance ratio = actual reps / goal reps.</p>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
+            <div class="mob-stack" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem;">
                 <div>
                     <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Current Card Set Level</label>
                     <select id="offCardSetLevel" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;">
@@ -1782,7 +1814,7 @@ function renderOffboardCardInputs() {
                     <span style="color: ${data.hex}; font-size: 1rem;">${data.shape}</span>
                     <span style="font-weight: 600; color: #1e293b; font-size: 0.875rem;">${ex.name}</span>
                 </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.5rem; align-items: end;">
+                <div class="mob-stack" style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.5rem; align-items: end;">
                     <div>
                         <label style="display: block; font-size: 0.6875rem; color: #64748b; margin-bottom: 0.25rem;">Session -2</label>
                         <input type="number" id="offR_${id}_0" min="0" max="5" step="0.1" placeholder="ratio" style="width: 100%; padding: 0.375rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.8125rem; box-sizing: border-box;" />
