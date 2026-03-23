@@ -51,8 +51,8 @@
                 <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Patient Information</h2>
             </div>
             <div style="margin-bottom: 1rem;">
-                <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Patient Name</label>
-                <input type="text" id="patientName" placeholder="e.g., John Smith" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; max-width: 400px;" />
+                <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Bed Number</label>
+                <input type="text" id="patientName" placeholder="e.g., B12" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; max-width: 400px;" />
             </div>
             <div style="margin-bottom: 1rem;">
                 <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Age</label>
@@ -122,8 +122,8 @@
         </div>
 
         <div style="background: white; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem;">
-            <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Patient Name</label>
-            <input type="text" id="trackingPatientName" placeholder="e.g., John Smith" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; max-width: 400px;" />
+            <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Bed Number</label>
+            <input type="text" id="trackingPatientName" placeholder="e.g., B12" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; max-width: 400px;" />
         </div>
 
         <!-- Tracking Sheet Preview -->
@@ -131,7 +131,7 @@
             <div style="text-align: center; margin-bottom: 1.5rem;">
                 <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0 0 0.25rem 0;">Stroke Recovery Program</h2>
                 <p style="color: #64748b; margin: 0; font-size: 0.875rem;">Weekly Exercise Tracking Sheet</p>
-                <p style="color: #1e293b; font-weight: 600; margin: 0.5rem 0 0 0;" id="trackingNameDisplay">Patient: _______________</p>
+                <p style="color: #1e293b; font-weight: 600; margin: 0.5rem 0 0 0;" id="trackingNameDisplay">Bed #: _______________</p>
                 <p style="color: #64748b; margin: 0.25rem 0 0 0; font-size: 0.8125rem;">Week of: _______________</p>
             </div>
 
@@ -294,14 +294,14 @@ function updateFormatPreview() {
 }
 
 function generateAndPrint() {
-    const name = document.getElementById('patientName').value || 'Patient';
+    const name = document.getElementById('patientName').value || 'Bed';
     const format = document.querySelector('input[name="outputFormat"]:checked').value;
-    alert(`✓ Generated sheet for ${name}\n\nFormat: ${format === 'quadrant' ? '4 on 1 page' : 'Large cards'}\n\nOpening print dialog...`);
+    alert(`✓ Generated sheet for Bed #${name}\n\nFormat: ${format === 'quadrant' ? '4 on 1 page' : 'Large cards'}\n\nOpening print dialog...`);
 }
 
 function saveForLater() {
     const name = document.getElementById('patientName').value || 'Unnamed';
-    alert(`✓ Saved "${name}" sheet\n\nYou can access it from "My Patients" page`);
+    alert(`✓ Saved Bed #${name} sheet\n\nYou can access it from "My Patients" page`);
 }
 
 function renderTrackingSheet() {
@@ -309,7 +309,7 @@ function renderTrackingSheet() {
     const nameDisplay = document.getElementById('trackingNameDisplay');
 
     nameInput.addEventListener('input', function() {
-        nameDisplay.textContent = this.value ? 'Patient: ' + this.value : 'Patient: _______________';
+        nameDisplay.textContent = this.value ? 'Bed #: ' + this.value : 'Bed #: _______________';
     });
 
     const tbody = document.getElementById('trackingTableBody');
