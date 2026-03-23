@@ -31,101 +31,258 @@
 
 <!-- Onboarding Page -->
 <div id="onboardingPage" style="display: none; padding: 2rem 1rem;">
-    <div style="max-width: 800px; margin: 0 auto;">
+    <div style="max-width: 900px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Participant Onboarding</h1>
-            <p style="color: #64748b; margin: 0;">Register a new participant and set up their recovery program</p>
+            <p style="color: #64748b; margin: 0;">Suitability routing calculator — determines card set level and format adaptations</p>
         </div>
 
-        <!-- Participant Details -->
+        <!-- Stateless notice -->
+        <div style="background: #eff6ff; border-left: 4px solid #3b82f6; padding: 0.75rem 1rem; border-radius: 0.375rem; margin-bottom: 1.5rem;">
+            <p style="color: #475569; margin: 0; font-size: 0.8125rem;">No participant data is stored or transmitted. All inputs are session-only and discarded on exit. This tool does not interface with clinical data systems. Scores are entered manually from existing records.</p>
+        </div>
+
+        <!-- Deployment Setting -->
         <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
-                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Participant Details</h2>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                <div>
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Participant ID</label>
-                    <input type="text" id="onboardParticipantId" placeholder="e.g., P001" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;" />
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Bed Number</label>
-                    <select id="onboardBedNumber" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
-                        <option value="">Select bed...</option>
-                    </select>
-                    <script>(function(){ const sel = document.getElementById('onboardBedNumber'); for(let i=1;i<=30;i++) { const o=document.createElement('option'); o.value='B'+i; o.textContent='B'+i; sel.appendChild(o); } })();</script>
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Date of Admission</label>
-                    <input type="date" id="onboardAdmitDate" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;" />
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Affected Side</label>
-                    <select id="onboardAffectedSide" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
-                        <option value="">Select...</option>
-                        <option value="left">Left</option>
-                        <option value="right">Right</option>
-                        <option value="bilateral">Bilateral</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Initial Assessment -->
-        <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
-                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Initial Assessment</h2>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                <div>
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Mobility Level</label>
-                    <select id="onboardMobility" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
-                        <option value="">Select...</option>
-                        <option value="bed-bound">Bed-bound</option>
-                        <option value="chair-transfer">Chair transfer with assistance</option>
-                        <option value="walking-assisted">Walking with assistance</option>
-                        <option value="independent">Independent mobility</option>
-                    </select>
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Grip Strength</label>
-                    <select id="onboardGrip" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
-                        <option value="">Select...</option>
-                        <option value="none">No grip</option>
-                        <option value="weak">Weak grip</option>
-                        <option value="moderate">Moderate grip</option>
-                        <option value="functional">Functional grip</option>
-                    </select>
-                </div>
-                <div style="grid-column: 1 / -1;">
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Notes</label>
-                    <textarea id="onboardNotes" rows="3" placeholder="Any relevant clinical notes, precautions, or observations..." style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box; resize: vertical;"></textarea>
-                </div>
+            <h2 style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0 0 1rem 0;">Care Setting</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" id="onboardSettingGrid">
+                <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer;">
+                    <input type="radio" name="careSetting" value="acute" style="margin-top: 0.2rem;" onchange="onCareSettingChange()" />
+                    <div>
+                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">Acute Stroke Unit</div>
+                        <div style="font-size: 0.75rem; color: #94a3b8;">Days 1-7. Flag only — cards not deployed.</div>
+                    </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer;">
+                    <input type="radio" name="careSetting" value="rehab" checked style="margin-top: 0.2rem;" onchange="onCareSettingChange()" />
+                    <div>
+                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">Inpatient Rehabilitation</div>
+                        <div style="font-size: 0.75rem; color: #94a3b8;">Primary target. Full Tier 0 extraction available.</div>
+                    </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer;">
+                    <input type="radio" name="careSetting" value="resi" style="margin-top: 0.2rem;" onchange="onCareSettingChange()" />
+                    <div>
+                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">Residential Aged Care</div>
+                        <div style="font-size: 0.75rem; color: #94a3b8;">Partial Tier 0. Tier 1 gate load-bearing.</div>
+                    </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer;">
+                    <input type="radio" name="careSetting" value="community" style="margin-top: 0.2rem;" onchange="onCareSettingChange()" />
+                    <div>
+                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">Community / Home-Based</div>
+                        <div style="font-size: 0.75rem; color: #94a3b8;">Formal scores often absent. Fallback pathway active.</div>
+                    </div>
+                </label>
             </div>
         </div>
 
-        <!-- Recommended Card Set -->
-        <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
-                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Recommended Card Set</h2>
-            </div>
-            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Based on the assessment above, select which exercise categories to include in this participant's initial card set.</p>
-            <div id="onboardCardCategories" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;"></div>
+        <!-- Acute flag-only message (hidden by default) -->
+        <div id="acuteNotice" style="display: none; background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1.25rem 1.5rem; border-radius: 0.375rem; margin-bottom: 1.5rem;">
+            <h3 style="color: #92400e; margin: 0 0 0.5rem 0; font-size: 1rem;">Acute Stroke Unit — Flag Only</h3>
+            <p style="color: #78350f; margin: 0; font-size: 0.875rem;">Recovery cards are not deployed in the acute phase. This setting is recorded for continuity. Onboarding should occur once the participant transfers to rehabilitation or a post-acute setting.</p>
         </div>
 
-        <!-- Actions -->
+        <!-- Tier 0: Passive Record Extraction -->
+        <div id="tier0Section" style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <div style="width: 2rem; height: 2rem; background: #6366f1; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem;">T0</div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Tier 0 — Passive Record Extraction</h2>
+            </div>
+            <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.8125rem;">No participant contact. Enter scores from existing clinical records. Select "Not available" if a score is not in the record.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem;">
+                <!-- GCS -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">GCS <span style="color: #94a3b8; font-weight: 400;">(3-15)</span></label>
+                    <select id="gateGCS" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier0()">
+                        <option value="">Not available</option>
+                        <option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                    </select>
+                </div>
+                <!-- mRS -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">mRS <span style="color: #94a3b8; font-weight: 400;">(0-6)</span></label>
+                    <select id="gatemRS" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier0()">
+                        <option value="">Not available</option>
+                        <option value="0">0 — No symptoms</option><option value="1">1 — No significant disability</option><option value="2">2 — Slight disability</option><option value="3">3 — Moderate disability</option><option value="4">4 — Moderately severe</option><option value="5">5 — Severe disability</option><option value="6">6 — Dead</option>
+                    </select>
+                </div>
+                <!-- NIHSS Item 9 -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">NIHSS Item 9 <span style="color: #94a3b8; font-weight: 400;">Language</span></label>
+                    <select id="gateNIHSS9" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier0()">
+                        <option value="">Not available</option>
+                        <option value="0">0 — Normal</option><option value="1">1 — Mild-moderate aphasia</option><option value="2">2 — Severe aphasia</option><option value="3">3 — Mute / global aphasia</option>
+                    </select>
+                </div>
+                <!-- NIHSS Item 10 -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">NIHSS Item 10 <span style="color: #94a3b8; font-weight: 400;">Dysarthria</span></label>
+                    <select id="gateNIHSS10" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier0()">
+                        <option value="">Not available</option>
+                        <option value="0">0 — Normal</option><option value="1">1 — Mild-moderate</option><option value="2">2 — Severe</option>
+                    </select>
+                </div>
+                <!-- NIHSS Item 11 -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">NIHSS Item 11 <span style="color: #94a3b8; font-weight: 400;">Neglect</span></label>
+                    <select id="gateNIHSS11" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier0()">
+                        <option value="">Not available</option>
+                        <option value="0">0 — Normal</option><option value="1">1 — Partial neglect</option><option value="2">2 — Profound neglect</option>
+                    </select>
+                </div>
+                <!-- Barthel -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Barthel Total <span style="color: #94a3b8; font-weight: 400;">(0-100)</span></label>
+                    <select id="gateBarthel" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier0()">
+                        <option value="">Not available</option>
+                    </select>
+                    <script>(function(){ const s=document.getElementById('gateBarthel'); for(let i=0;i<=100;i+=5){ const o=document.createElement('option'); o.value=i; o.textContent=i; s.appendChild(o); } })();</script>
+                </div>
+                <!-- FIM Cognitive -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">FIM Cognitive <span style="color: #94a3b8; font-weight: 400;">(5-35)</span></label>
+                    <input type="number" id="gateFIMCog" min="5" max="35" placeholder="Not available" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; box-sizing: border-box;" onchange="runTier0()" />
+                </div>
+                <!-- SP Report -->
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">SP Report Present</label>
+                    <select id="gateSPReport" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier0()">
+                        <option value="unknown">Unknown</option>
+                        <option value="yes">Yes</option>
+                        <option value="yes-receptive">Yes — receptive aphasia noted</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tier 0 Output -->
+            <div id="tier0Output" style="margin-top: 1.5rem; padding: 1rem; border-radius: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.8125rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">TIER 0 RESULT</div>
+                <div id="tier0Result" style="font-weight: 700; color: #1e293b;">Awaiting input...</div>
+                <div id="tier0Flags" style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;"></div>
+            </div>
+        </div>
+
+        <!-- Tier 1: Rapid Bedside Gate -->
+        <div id="tier1Section" style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); opacity: 0.5; pointer-events: none;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <div style="width: 2rem; height: 2rem; background: #f59e0b; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem;">T1</div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Tier 1 — Rapid Bedside Gate</h2>
+                <span style="font-size: 0.75rem; color: #94a3b8; background: #f1f5f9; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">~3-5 min</span>
+            </div>
+            <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.8125rem;">FAST (Frenchay Aphasia Screening Test) — proceed / defer decision point.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">FAST Comprehension</label>
+                    <select id="gateFASTComp" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier1()">
+                        <option value="">Not administered</option>
+                        <option value="pass">Pass</option>
+                        <option value="fail">Fail</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">FAST Expression</label>
+                    <select id="gateFASTExpr" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier1()">
+                        <option value="">Not administered</option>
+                        <option value="pass">Pass</option>
+                        <option value="fail">Fail</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Fallback proxy questions (shown when FAST not administered) -->
+            <div id="proxySection" style="display: none; margin-top: 1.5rem; padding: 1.25rem; background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem;">
+                <div style="font-size: 0.875rem; font-weight: 700; color: #92400e; margin-bottom: 0.25rem;">Fallback Pathway — Proxy Questions</div>
+                <p style="color: #78350f; margin: 0 0 1rem 0; font-size: 0.75rem;">FAST not administered. These observational questions provide a routing signal at reduced confidence.</p>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;" id="proxyQuestions">
+                    <label style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.875rem; color: #1e293b;">
+                        <select style="flex-shrink: 0; padding: 0.375rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.8125rem; background: white;" onchange="runProxy()">
+                            <option value="">--</option><option value="yes">Yes</option><option value="no">No / Unsure</option>
+                        </select>
+                        <span>Can the participant follow a simple spoken instruction (e.g. "point to the door")?</span>
+                    </label>
+                    <label style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.875rem; color: #1e293b;">
+                        <select style="flex-shrink: 0; padding: 0.375rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.8125rem; background: white;" onchange="runProxy()">
+                            <option value="">--</option><option value="yes">Yes</option><option value="no">No / Unsure</option>
+                        </select>
+                        <span>Can the participant answer yes/no questions reliably?</span>
+                    </label>
+                    <label style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.875rem; color: #1e293b;">
+                        <select style="flex-shrink: 0; padding: 0.375rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.8125rem; background: white;" onchange="runProxy()">
+                            <option value="">--</option><option value="yes">Yes</option><option value="no">No / Unsure</option>
+                        </select>
+                        <span>Does the participant recognise familiar people and their current environment?</span>
+                    </label>
+                    <label style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.875rem; color: #1e293b;">
+                        <select style="flex-shrink: 0; padding: 0.375rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.8125rem; background: white;" onchange="runProxy()">
+                            <option value="">--</option><option value="yes">Yes</option><option value="no">No / Unsure</option>
+                        </select>
+                        <span>Is the participant able to look at and attend to printed material for at least 1-2 minutes?</span>
+                    </label>
+                    <label style="display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.875rem; color: #1e293b;">
+                        <select style="flex-shrink: 0; padding: 0.375rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.8125rem; background: white;" onchange="runProxy()">
+                            <option value="">--</option><option value="yes">Yes</option><option value="no">No / Unsure</option>
+                        </select>
+                        <span>Is the participant's first language English (or is translated material available)?</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tier 1 Output -->
+            <div id="tier1Output" style="margin-top: 1.5rem; padding: 1rem; border-radius: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.8125rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">TIER 1 RESULT</div>
+                <div id="tier1Result" style="font-weight: 700; color: #1e293b;">Awaiting Tier 0...</div>
+                <div id="tier1Flags" style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;"></div>
+            </div>
+        </div>
+
+        <!-- Tier 2: Suitability Calibration -->
+        <div id="tier2Section" style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); opacity: 0.5; pointer-events: none;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem;">T2</div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Tier 2 — Suitability Calibration</h2>
+                <span style="font-size: 0.75rem; color: #94a3b8; background: #f1f5f9; padding: 0.125rem 0.5rem; border-radius: 0.25rem;">~10-15 min if MoCA needed</span>
+            </div>
+            <p style="color: #64748b; margin: 0 0 1.5rem 0; font-size: 0.8125rem;">Determines card set complexity, format adaptations, and session parameters.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div>
+                    <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">MoCA Total Score <span style="color: #94a3b8; font-weight: 400;">(0-30)</span></label>
+                    <select id="gateMoCA" style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.9375rem; background: white;" onchange="runTier2()">
+                        <option value="">Not available</option>
+                    </select>
+                    <script>(function(){ const s=document.getElementById('gateMoCA'); for(let i=0;i<=30;i++){ const o=document.createElement('option'); o.value=i; o.textContent=i+(i>=26?' — No significant impairment':i>=18?' — Mild-moderate':i>=13?' — Moderate impairment':' — Significant impairment'); s.appendChild(o); } })();</script>
+                </div>
+            </div>
+
+            <!-- Tier 2 Output -->
+            <div id="tier2Output" style="margin-top: 1.5rem; padding: 1rem; border-radius: 0.5rem; background: #f8fafc; border: 1px solid #e2e8f0;">
+                <div style="font-size: 0.8125rem; font-weight: 600; color: #64748b; margin-bottom: 0.5rem;">TIER 2 RESULT</div>
+                <div id="tier2Result" style="font-weight: 700; color: #1e293b;">Awaiting Tier 1...</div>
+                <div id="tier2Flags" style="margin-top: 0.5rem; font-size: 0.8125rem; color: #64748b;"></div>
+            </div>
+        </div>
+
+        <!-- Final Output -->
+        <div id="gateOutputSection" style="display: none; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 1.25rem; font-weight: 700; margin: 0 0 1rem 0;" id="gateOutputTitle">Routing Result</h2>
+            <div id="gateOutputState" style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem;"></div>
+            <div id="gateOutputMessage" style="font-size: 0.9375rem; color: #475569; margin-bottom: 1rem;"></div>
+            <div id="gateOutputAdaptations" style="font-size: 0.8125rem; color: #64748b;"></div>
+            <div id="gateOutputActions" style="margin-top: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap;"></div>
+        </div>
+
+        <!-- Reset -->
         <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-            <button onclick="clearOnboarding()" style="padding: 0.75rem 1.5rem; background: white; color: #64748b; border: 2px solid #cbd5e1; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Clear Form</button>
-            <button onclick="completeOnboarding()" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Complete Onboarding</button>
+            <button onclick="resetOnboardingGate()" style="padding: 0.75rem 1.5rem; background: white; color: #64748b; border: 2px solid #cbd5e1; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Reset All</button>
         </div>
 
-        <div id="onboardingConfirmation" style="display: none; margin-top: 1.5rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.75rem; padding: 1.5rem; text-align: center;">
-            <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#10003;</div>
-            <h3 style="color: #15803d; margin: 0 0 0.5rem 0;">Participant Onboarded</h3>
-            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;" id="onboardingConfirmText"></p>
-            <button onclick="showPage('create')" style="padding: 0.5rem 1.25rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">Go to Print Cards</button>
+        <!-- Regulatory note -->
+        <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: #f8fafc; border-radius: 0.375rem;">
+            <p style="color: #94a3b8; margin: 0; font-size: 0.75rem; font-style: italic;">This tool does not administer any clinical assessment. It accepts externally-obtained scores only. Output states are routing signals, not diagnoses or clinical determinations. It does not replace clinician judgement.</p>
         </div>
     </div>
 </div>
@@ -567,9 +724,6 @@ function showPage(page) {
     const pageMap = { onboarding: 'onboardingBtn', dashboard: 'dashboardBtn', create: 'createBtn', tracking: 'trackingBtn', cardOptions: 'cardOptionsBtn', help: 'helpBtn' };
     if (pageMap[page]) document.getElementById(pageMap[page]).style.borderBottomColor = '#10b981';
 
-    if (page === 'onboarding') {
-        renderOnboardCardCategories();
-    }
     if (page === 'create') {
         updateFormatSelection();
     }
@@ -1075,46 +1229,342 @@ function onStepDragEnd(e) {
     document.querySelectorAll('ol[id^="stepList_"] li').forEach(li => { li.style.background = ''; });
 }
 
-// Onboarding
-function renderOnboardCardCategories() {
-    const container = document.getElementById('onboardCardCategories');
-    if (!container) return;
-    container.innerHTML = Object.entries(exercises).map(([cat, data]) => `
-        <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer; transition: all 0.15s;">
-            <input type="checkbox" value="${cat}" checked style="width: 1.25rem; height: 1.25rem; accent-color: ${data.hex};" />
-            <span style="font-size: 1.25rem; color: ${data.hex};">${data.shape}</span>
-            <span style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">${data.title}</span>
-        </label>
-    `).join('');
+// ─── Onboarding Gate Routing Engine ───
+
+// Shared gate state
+let gateFlags = [];
+let gateState = null; // null, 'exclude', 'defer', 'proceed-full', 'proceed-adapted', 'proceed-proxy'
+let gateIsProxy = false;
+
+function val(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function intVal(id) { const v = val(id); return v === '' ? null : parseInt(v); }
+
+function onCareSettingChange() {
+    const setting = document.querySelector('input[name="careSetting"]:checked').value;
+    const acuteNotice = document.getElementById('acuteNotice');
+    const tier0 = document.getElementById('tier0Section');
+    const tier1 = document.getElementById('tier1Section');
+    const tier2 = document.getElementById('tier2Section');
+    if (setting === 'acute') {
+        acuteNotice.style.display = 'block';
+        tier0.style.opacity = '0.5'; tier0.style.pointerEvents = 'none';
+        tier1.style.opacity = '0.5'; tier1.style.pointerEvents = 'none';
+        tier2.style.opacity = '0.5'; tier2.style.pointerEvents = 'none';
+        showGateOutput('exclude', 'Acute Stroke Unit — Flag Only',
+            'Recovery cards are not deployed during the acute phase. This setting has been recorded. Onboarding should occur once the participant transfers to rehabilitation or a post-acute setting.', [], []);
+    } else {
+        acuteNotice.style.display = 'none';
+        tier0.style.opacity = '1'; tier0.style.pointerEvents = 'auto';
+        runTier0();
+    }
 }
 
-function clearOnboarding() {
-    document.getElementById('onboardParticipantId').value = '';
-    document.getElementById('onboardBedNumber').value = '';
-    document.getElementById('onboardAdmitDate').value = '';
-    document.getElementById('onboardAffectedSide').value = '';
-    document.getElementById('onboardMobility').value = '';
-    document.getElementById('onboardGrip').value = '';
-    document.getElementById('onboardNotes').value = '';
-    document.getElementById('onboardingConfirmation').style.display = 'none';
-    renderOnboardCardCategories();
+function runTier0() {
+    gateFlags = [];
+    gateIsProxy = false;
+    const gcs = intVal('gateGCS');
+    const mrs = intVal('gatemRS');
+    const nihss9 = intVal('gateNIHSS9');
+    const nihss11 = intVal('gateNIHSS11');
+    const spReport = val('gateSPReport');
+    const resultEl = document.getElementById('tier0Result');
+    const flagsEl = document.getElementById('tier0Flags');
+
+    // Hard exclusions
+    if (gcs !== null && gcs < 13) {
+        resultEl.innerHTML = '<span style="color: #dc2626;">EXCLUDE — GCS &lt; 13</span>';
+        flagsEl.textContent = '';
+        lockTier(1); lockTier(2);
+        showGateOutput('exclude', 'EXCLUDE', 'This program is not appropriate based on current clinical indicators. GCS score indicates insufficient consciousness level.', [], ['Speak with the treating team about suitability for future reassessment.']);
+        return;
+    }
+    if (mrs !== null && (mrs === 5 || mrs === 6)) {
+        resultEl.innerHTML = '<span style="color: #dc2626;">EXCLUDE — mRS ' + mrs + '</span>';
+        flagsEl.textContent = '';
+        lockTier(1); lockTier(2);
+        showGateOutput('exclude', 'EXCLUDE', 'This program is not appropriate based on current clinical indicators. Modified Rankin Scale indicates severe disability or death.', [], ['Speak with the treating team about suitability for future reassessment.']);
+        return;
+    }
+    if (nihss9 !== null && nihss9 === 3) {
+        resultEl.innerHTML = '<span style="color: #dc2626;">EXCLUDE — NIHSS Item 9 = 3 (mute/global aphasia)</span>';
+        flagsEl.textContent = '';
+        lockTier(1); lockTier(2);
+        showGateOutput('exclude', 'EXCLUDE', 'This program is not appropriate based on current clinical indicators. Global aphasia prevents meaningful engagement with card-based exercises.', [], ['Refer to Speech Pathology. Reassess if language function improves.']);
+        return;
+    }
+
+    // Flags
+    if (nihss9 !== null && nihss9 === 2) gateFlags.push('Significant aphasia present — FAST comprehension subtest critical');
+    if (nihss11 !== null && nihss11 === 2) gateFlags.push('Profound neglect — card layout adaptation required');
+    if (nihss11 !== null && nihss11 === 1) gateFlags.push('Partial neglect — note for Tier 2');
+    if (spReport === 'yes-receptive') gateFlags.push('SP report: receptive aphasia noted — review before proceeding');
+
+    // Determine completeness
+    const hasData = gcs !== null || mrs !== null || nihss9 !== null;
+    if (hasData && gateFlags.length > 0) {
+        resultEl.innerHTML = '<span style="color: #f59e0b;">PROCEED with flags</span> → Tier 1';
+    } else if (hasData) {
+        resultEl.innerHTML = '<span style="color: #10b981;">PROCEED clean</span> → Tier 1';
+    } else {
+        resultEl.innerHTML = '<span style="color: #6366f1;">INSUFFICIENT DATA</span> → Tier 1 as primary gate';
+    }
+    flagsEl.innerHTML = gateFlags.map(f => '<div style="margin-top: 0.25rem; color: #b45309;">&#9888; ' + f + '</div>').join('');
+
+    // Unlock Tier 1
+    unlockTier(1);
+    document.getElementById('tier1Result').textContent = 'Awaiting FAST input...';
+    document.getElementById('tier1Flags').textContent = '';
+    lockTier(2);
+    hideGateOutput();
+    runTier1();
 }
 
-function completeOnboarding() {
-    const pid = document.getElementById('onboardParticipantId').value.trim();
-    const bed = document.getElementById('onboardBedNumber').value;
-    if (!pid) { alert('Please enter a Participant ID.'); return; }
-    if (!bed) { alert('Please select a Bed Number.'); return; }
+function runTier1() {
+    const comp = val('gateFASTComp');
+    const expr = val('gateFASTExpr');
+    const resultEl = document.getElementById('tier1Result');
+    const flagsEl = document.getElementById('tier1Flags');
 
-    // Select the bed on the dashboard
-    const bedBtn = document.getElementById('bedBtn_' + bed);
-    if (bedBtn) bedBtn.click();
+    // Show/hide proxy section
+    const proxySection = document.getElementById('proxySection');
+    if (comp === '' && expr === '') {
+        proxySection.style.display = 'block';
+        runProxy();
+        return;
+    } else {
+        proxySection.style.display = 'none';
+        gateIsProxy = false;
+    }
 
-    // Show confirmation
-    const conf = document.getElementById('onboardingConfirmation');
-    document.getElementById('onboardingConfirmText').textContent = `${pid} assigned to ${bed}. You can now print their recovery card set.`;
-    conf.style.display = 'block';
-    conf.scrollIntoView({ behavior: 'smooth' });
+    if (comp === 'fail') {
+        resultEl.innerHTML = '<span style="color: #dc2626;">DEFER — Receptive aphasia present</span>';
+        flagsEl.textContent = '';
+        lockTier(2);
+        showGateOutput('defer', 'DEFER', 'Not suitable at this time. FAST comprehension subtest indicates receptive aphasia.', [],
+            ['Speech Pathology referral recommended.', 'Reassess when language function improves.']);
+        return;
+    }
+
+    if (comp === 'pass') {
+        let flags = [];
+        if (expr === 'fail') {
+            flags.push('Expressive aphasia — response mode adapted to pointing/gesture');
+            gateFlags.push('Expressive aphasia — response mode adapted to pointing/gesture');
+        }
+        resultEl.innerHTML = '<span style="color: #10b981;">PROCEED</span> → Tier 2' + (flags.length ? ' (with flag)' : '');
+        flagsEl.innerHTML = flags.map(f => '<div style="color: #b45309;">&#9888; ' + f + '</div>').join('');
+        unlockTier(2);
+        document.getElementById('tier2Result').textContent = 'Awaiting MoCA input...';
+        document.getElementById('tier2Flags').textContent = '';
+        hideGateOutput();
+        runTier2();
+        return;
+    }
+
+    resultEl.textContent = 'Awaiting FAST input...';
+    flagsEl.textContent = '';
+    lockTier(2);
+    hideGateOutput();
+}
+
+function runProxy() {
+    const selects = document.querySelectorAll('#proxyQuestions select');
+    const answers = Array.from(selects).map(s => s.value);
+    const resultEl = document.getElementById('tier1Result');
+    const flagsEl = document.getElementById('tier1Flags');
+
+    // All must be answered
+    if (answers.some(a => a === '')) {
+        resultEl.textContent = 'Awaiting proxy answers...';
+        flagsEl.textContent = '';
+        lockTier(2);
+        hideGateOutput();
+        return;
+    }
+
+    // Q1 no = DEFER (comprehension concern)
+    if (answers[0] === 'no') {
+        resultEl.innerHTML = '<span style="color: #dc2626;">DEFER — Comprehension concern (proxy)</span>';
+        flagsEl.textContent = '';
+        lockTier(2);
+        showGateOutput('defer', 'DEFER', 'Not suitable at this time. Proxy assessment indicates comprehension concern.',
+            [], ['Suggest clinician review before re-attempting.']);
+        return;
+    }
+    // Q4 no = DEFER (attention/fatigue)
+    if (answers[3] === 'no') {
+        resultEl.innerHTML = '<span style="color: #dc2626;">DEFER — Attention or fatigue concern (proxy)</span>';
+        flagsEl.textContent = '';
+        lockTier(2);
+        showGateOutput('defer', 'DEFER', 'Not suitable at this time. Proxy assessment indicates attention or fatigue concern.',
+            [], ['Suggest clinician review before re-attempting.']);
+        return;
+    }
+
+    // Accumulate flags
+    gateIsProxy = true;
+    let proxyFlags = [];
+    if (answers[1] === 'no') proxyFlags.push('Yes/no response mode only');
+    if (answers[2] === 'no') proxyFlags.push('Orientation concern — simplified set');
+    if (answers[4] === 'no') proxyFlags.push('Translation requirement');
+    proxyFlags.forEach(f => gateFlags.push(f));
+
+    resultEl.innerHTML = '<span style="color: #f59e0b;">PROCEED via proxy</span> → Tier 2 (reduced confidence)';
+    flagsEl.innerHTML = proxyFlags.map(f => '<div style="color: #b45309;">&#9888; ' + f + '</div>').join('');
+
+    unlockTier(2);
+    document.getElementById('tier2Result').textContent = 'Awaiting MoCA input...';
+    document.getElementById('tier2Flags').textContent = '';
+    hideGateOutput();
+    runTier2();
+}
+
+function runTier2() {
+    const moca = intVal('gateMoCA');
+    const barthel = intVal('gateBarthel');
+    const nihss11 = intVal('gateNIHSS11');
+    const resultEl = document.getElementById('tier2Result');
+    const flagsEl = document.getElementById('tier2Flags');
+
+    let cardSet, adaptations = [];
+
+    // MoCA routing
+    if (moca === null) {
+        if (gateIsProxy) {
+            cardSet = 'simplified';
+            adaptations.push('Proxy-routed — formal MoCA recommended at next clinical contact');
+        } else {
+            resultEl.innerHTML = '<span style="color: #6366f1;">Enter MoCA score or leave as "Not available" for proxy routing</span>';
+            flagsEl.textContent = '';
+            // Show proxy result if we got here via proxy
+            cardSet = 'simplified';
+            adaptations.push('MoCA not available — routing to simplified card set at lower confidence');
+            adaptations.push('Formal MoCA recommended at next clinical contact');
+        }
+    } else if (moca >= 26) {
+        cardSet = 'full';
+    } else if (moca >= 18) {
+        cardSet = 'simplified';
+        adaptations.push('Reduced text, increased visual-to-text ratio, shorter sessions');
+    } else if (moca >= 13) {
+        cardSet = 'adapted';
+        adaptations.push('Carer-mediated use recommended');
+        adaptations.push('Single concept per card, high contrast');
+    } else {
+        resultEl.innerHTML = '<span style="color: #dc2626;">DEFER — MoCA &lt; 13</span>';
+        flagsEl.textContent = '';
+        showGateOutput('defer', 'DEFER', 'Not suitable at this time. MoCA score indicates significant cognitive impairment.',
+            [], ['Reassess at 4-6 weeks or following further recovery.']);
+        return;
+    }
+
+    // Additional adaptations
+    if (nihss11 !== null && nihss11 >= 1) {
+        adaptations.push('Neglect adaptation: single visual field card layout, present to non-neglected side');
+    }
+    if (gateFlags.some(f => f.includes('Expressive aphasia'))) {
+        adaptations.push('Response mode: pointing/gesture rather than verbal or written');
+    }
+    if (barthel !== null && barthel < 20) {
+        adaptations.push('Barthel &lt; 20: physical card manipulation may not be feasible — consider digital display or facilitator-held format');
+    }
+
+    const labels = { full: 'Full card set — standard format', simplified: 'Simplified card set', adapted: 'Adapted card set' };
+    resultEl.innerHTML = '<span style="color: #10b981;">' + labels[cardSet] + '</span>';
+    flagsEl.innerHTML = adaptations.map(a => '<div style="margin-top: 0.25rem; color: #475569;">&#8227; ' + a + '</div>').join('');
+
+    // Final output
+    const stateKey = gateIsProxy ? 'proceed-proxy' : (cardSet === 'full' ? 'proceed-full' : 'proceed-adapted');
+    const messages = {
+        'proceed-full': 'Suitability confirmed. Full program available.',
+        'proceed-adapted': 'Suitability confirmed with adaptations. Program configured accordingly.',
+        'proceed-proxy': 'Provisional suitability based on functional indicators. Formal assessment recommended.'
+    };
+    showGateOutput(stateKey, stateKey === 'proceed-full' ? 'PROCEED — Full' : stateKey === 'proceed-proxy' ? 'PROCEED — Proxy' : 'PROCEED — Adapted',
+        messages[stateKey], adaptations, []);
+}
+
+function lockTier(n) {
+    const el = document.getElementById('tier' + n + 'Section');
+    el.style.opacity = '0.5'; el.style.pointerEvents = 'none';
+}
+function unlockTier(n) {
+    const el = document.getElementById('tier' + n + 'Section');
+    el.style.opacity = '1'; el.style.pointerEvents = 'auto';
+}
+
+function showGateOutput(state, title, message, adaptations, actions) {
+    gateState = state;
+    const section = document.getElementById('gateOutputSection');
+    section.style.display = 'block';
+
+    const colors = {
+        'exclude': { bg: '#fef2f2', border: '#fecaca', text: '#dc2626' },
+        'defer': { bg: '#fffbeb', border: '#fde68a', text: '#d97706' },
+        'proceed-full': { bg: '#f0fdf4', border: '#bbf7d0', text: '#15803d' },
+        'proceed-adapted': { bg: '#f0fdf4', border: '#bbf7d0', text: '#15803d' },
+        'proceed-proxy': { bg: '#eff6ff', border: '#bfdbfe', text: '#2563eb' }
+    };
+    const c = colors[state] || colors['defer'];
+    section.style.background = c.bg;
+    section.style.border = '2px solid ' + c.border;
+
+    document.getElementById('gateOutputTitle').style.color = c.text;
+    document.getElementById('gateOutputState').innerHTML = '<span style="color: ' + c.text + ';">' + title + '</span>';
+    document.getElementById('gateOutputMessage').textContent = message;
+
+    const adaptEl = document.getElementById('gateOutputAdaptations');
+    if (adaptations.length > 0) {
+        adaptEl.innerHTML = '<div style="font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Format Adaptations</div>' +
+            adaptations.map(a => '<div style="margin-bottom: 0.25rem;">&#8227; ' + a + '</div>').join('');
+    } else {
+        adaptEl.innerHTML = '';
+    }
+
+    const actEl = document.getElementById('gateOutputActions');
+    if (state.startsWith('proceed')) {
+        actEl.innerHTML = '<button onclick="showPage(\'create\')" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">Go to Print Cards</button>';
+    } else {
+        actEl.innerHTML = actions.map(a => '<div style="font-size: 0.875rem; color: ' + c.text + '; padding: 0.375rem 0;">&#8594; ' + a + '</div>').join('');
+    }
+
+    section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function hideGateOutput() {
+    document.getElementById('gateOutputSection').style.display = 'none';
+    gateState = null;
+}
+
+function resetOnboardingGate() {
+    // Reset all gate inputs
+    ['gateGCS', 'gatemRS', 'gateNIHSS9', 'gateNIHSS10', 'gateNIHSS11', 'gateBarthel', 'gateSPReport', 'gateFASTComp', 'gateFASTExpr', 'gateMoCA'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    document.getElementById('gateFIMCog').value = '';
+    document.querySelectorAll('#proxyQuestions select').forEach(s => { s.value = ''; });
+    document.getElementById('proxySection').style.display = 'none';
+
+    // Reset display
+    document.getElementById('tier0Result').textContent = 'Awaiting input...';
+    document.getElementById('tier0Flags').textContent = '';
+    document.getElementById('tier1Result').textContent = 'Awaiting Tier 0...';
+    document.getElementById('tier1Flags').textContent = '';
+    document.getElementById('tier2Result').textContent = 'Awaiting Tier 1...';
+    document.getElementById('tier2Flags').textContent = '';
+    lockTier(1); lockTier(2);
+    hideGateOutput();
+    document.getElementById('acuteNotice').style.display = 'none';
+
+    // Reset care setting to rehab
+    document.querySelector('input[name="careSetting"][value="rehab"]').checked = true;
+    document.getElementById('tier0Section').style.opacity = '1';
+    document.getElementById('tier0Section').style.pointerEvents = 'auto';
+
+    gateFlags = [];
+    gateState = null;
+    gateIsProxy = false;
 }
 
 function copyCardState() {
