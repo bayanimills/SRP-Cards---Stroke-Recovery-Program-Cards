@@ -13,6 +13,7 @@
         <div style="display: flex; gap: 1rem;">
             <button onclick="showPage('dashboard')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="dashboardBtn">My Patients</button>
             <button onclick="showPage('create')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="createBtn">Create Sheet</button>
+            <button onclick="showPage('tracking')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="trackingBtn">Tracking Sheet</button>
             <button onclick="showPage('help')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="helpBtn">Help</button>
         </div>
     </div>
@@ -56,23 +57,6 @@
             <div style="margin-bottom: 1rem;">
                 <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Age</label>
                 <input type="number" id="patientAge" placeholder="e.g., 78" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; max-width: 400px;" />
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Ability Level</label>
-                <div style="display: flex; gap: 1rem;">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="radio" name="abilityLevel" value="beginner" checked style="width: 18px; height: 18px;" />
-                        <span style="color: #1e293b; font-weight: 500;">Beginner</span>
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="radio" name="abilityLevel" value="intermediate" style="width: 18px; height: 18px;" />
-                        <span style="color: #1e293b; font-weight: 500;">Intermediate</span>
-                    </label>
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="radio" name="abilityLevel" value="advanced" style="width: 18px; height: 18px;" />
-                        <span style="color: #1e293b; font-weight: 500;">Advanced</span>
-                    </label>
-                </div>
             </div>
         </div>
 
@@ -122,6 +106,65 @@
         <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
             <button onclick="generateAndPrint();" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Generate & Print</button>
             <button onclick="saveForLater();" style="flex: 1; padding: 1rem; background: white; color: #10b981; border: 2px solid #10b981; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Save for Later</button>
+        </div>
+    </div>
+</div>
+
+<!-- Tracking Sheet Page -->
+<div id="trackingPage" style="display: none; padding: 2rem 1rem;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Weekly Tracking Sheet</h1>
+                <p style="color: #64748b; margin: 0;">Print this sheet to track daily exercise completion</p>
+            </div>
+            <button onclick="printTrackingSheet();" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Print Tracking Sheet</button>
+        </div>
+
+        <div style="background: white; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Patient Name</label>
+            <input type="text" id="trackingPatientName" placeholder="e.g., John Smith" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; max-width: 400px;" />
+        </div>
+
+        <!-- Tracking Sheet Preview -->
+        <div id="trackingSheetPreview" style="background: white; border-radius: 0.75rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0 0 0.25rem 0;">Stroke Recovery Program</h2>
+                <p style="color: #64748b; margin: 0; font-size: 0.875rem;">Weekly Exercise Tracking Sheet</p>
+                <p style="color: #1e293b; font-weight: 600; margin: 0.5rem 0 0 0;" id="trackingNameDisplay">Patient: _______________</p>
+                <p style="color: #64748b; margin: 0.25rem 0 0 0; font-size: 0.8125rem;">Week of: _______________</p>
+            </div>
+
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+                <thead>
+                    <tr>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: left; width: 28%;">Exercise</th>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: center;">Mon</th>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: center;">Tue</th>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: center;">Wed</th>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: center;">Thu</th>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: center;">Fri</th>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: center;">Sat</th>
+                        <th style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9; text-align: center;">Sun</th>
+                    </tr>
+                </thead>
+                <tbody id="trackingTableBody">
+                </tbody>
+            </table>
+
+            <div style="margin-top: 1.5rem; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1rem;">
+                <p style="font-weight: 600; color: #1e293b; margin: 0 0 0.5rem 0;">Caregiver Notes</p>
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 0.75rem; min-height: 4rem;">
+                    <p style="color: #cbd5e1; margin: 0 0 1.5rem 0; border-bottom: 1px solid #e2e8f0;">_</p>
+                    <p style="color: #cbd5e1; margin: 0 0 1.5rem 0; border-bottom: 1px solid #e2e8f0;">_</p>
+                    <p style="color: #cbd5e1; margin: 0; border-bottom: 1px solid #e2e8f0;">_</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 1rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: #94a3b8;">
+                <span>Mark each box when exercise is completed</span>
+                <span>Stroke Recovery Cards - Recovery in Motion</span>
+            </div>
         </div>
     </div>
 </div>
@@ -195,18 +238,21 @@ const exercises = {
 const selections = { hand: 0, shoulder: 0, arm: 0, leg: 0 };
 
 function showPage(page) {
-    ['dashboardPage', 'createPage', 'helpPage'].forEach(p => document.getElementById(p).style.display = 'none');
+    ['dashboardPage', 'createPage', 'trackingPage', 'helpPage'].forEach(p => document.getElementById(p).style.display = 'none');
     document.getElementById(page + 'Page').style.display = 'block';
 
-    const btns = ['dashboardBtn', 'createBtn', 'helpBtn'];
+    const btns = ['dashboardBtn', 'createBtn', 'trackingBtn', 'helpBtn'];
     btns.forEach(b => document.getElementById(b).style.borderBottomColor = 'transparent');
-    
-    const pageMap = { dashboard: 'dashboardBtn', create: 'createBtn', help: 'helpBtn' };
+
+    const pageMap = { dashboard: 'dashboardBtn', create: 'createBtn', tracking: 'trackingBtn', help: 'helpBtn' };
     if (pageMap[page]) document.getElementById(pageMap[page]).style.borderBottomColor = '#10b981';
 
     if (page === 'create') {
         renderExerciseSelection();
         updateFormatPreview();
+    }
+    if (page === 'tracking') {
+        renderTrackingSheet();
     }
 }
 
@@ -256,6 +302,56 @@ function generateAndPrint() {
 function saveForLater() {
     const name = document.getElementById('patientName').value || 'Unnamed';
     alert(`✓ Saved "${name}" sheet\n\nYou can access it from "My Patients" page`);
+}
+
+function renderTrackingSheet() {
+    const nameInput = document.getElementById('trackingPatientName');
+    const nameDisplay = document.getElementById('trackingNameDisplay');
+
+    nameInput.addEventListener('input', function() {
+        nameDisplay.textContent = this.value ? 'Patient: ' + this.value : 'Patient: _______________';
+    });
+
+    const tbody = document.getElementById('trackingTableBody');
+    const days = 7;
+    const rows = Object.entries(exercises).map(([cat, data]) => {
+        const cells = Array.from({length: days}, () =>
+            `<td style="border: 2px solid #1e293b; padding: 0.75rem; text-align: center; min-width: 3rem; height: 2.5rem;"></td>`
+        ).join('');
+        return `<tr>
+            <td style="border: 2px solid #1e293b; padding: 0.75rem; background: ${data.hex}15;">
+                <span style="font-weight: 700; color: ${data.hex};">${data.shape}</span>
+                <span style="font-weight: 600; color: #1e293b; margin-left: 0.5rem;">${data.title}</span>
+                <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.25rem;">${data.list[selections[cat]]}</div>
+            </td>
+            ${cells}
+        </tr>`;
+    });
+
+    // Add a "Pain / Comfort Level" row
+    const comfortCells = Array.from({length: days}, () =>
+        `<td style="border: 2px solid #1e293b; padding: 0.75rem; text-align: center; height: 2.5rem; font-size: 0.75rem; color: #94a3b8;">1-10</td>`
+    ).join('');
+    rows.push(`<tr>
+        <td style="border: 2px solid #1e293b; padding: 0.75rem; background: #f1f5f9;">
+            <span style="font-weight: 600; color: #1e293b;">Comfort Level</span>
+            <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.25rem;">Rate 1 (hard) to 10 (easy)</div>
+        </td>
+        ${comfortCells}
+    </tr>`);
+
+    tbody.innerHTML = rows.join('');
+}
+
+function printTrackingSheet() {
+    const preview = document.getElementById('trackingSheetPreview');
+    const printWin = window.open('', '_blank');
+    printWin.document.write(`<!DOCTYPE html><html><head><title>Tracking Sheet</title>
+        <style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:1.5rem;margin:0;}
+        @media print{body{padding:0.5rem;}}</style></head><body>${preview.innerHTML}</body></html>`);
+    printWin.document.close();
+    printWin.focus();
+    printWin.print();
 }
 
 showPage('dashboard');
