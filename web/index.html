@@ -739,7 +739,13 @@
 
             <!-- Per-card performance -->
             <h3 style="font-size: 0.9375rem; font-weight: 700; color: #1e293b; margin: 0 0 0.75rem 0;">Card Performance (last 3 sessions)</h3>
-            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.75rem;">For each active card: enter the performance ratio (actual/goal) for the last 3 sessions, and whether the goal has been recalibrated.</p>
+            <p style="color: #64748b; margin: 0 0 0.5rem 0; font-size: 0.75rem;">For each active card: enter the performance ratio (actual reps &divide; goal reps) for the last 3 sessions. Check "Recalibrated" if the goal was adjusted upward after being met.</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; font-size: 0.6875rem; color: #64748b;">
+                <span><strong style="color: #10b981;">&#8805; 1.0</strong> = exceeding goal</span>
+                <span><strong style="color: #2563eb;">0.9 - 1.0</strong> = on track</span>
+                <span><strong style="color: #f59e0b;">&lt; 0.9 flat</strong> = plateau signal</span>
+                <span><strong style="color: #dc2626;">&gt; 30% drop</strong> = regression flag</span>
+            </div>
 
             <div id="offCardInputs" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
         </div>
@@ -747,7 +753,7 @@
         <!-- Evaluation trigger -->
         <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
             <button onclick="runOffboardEval()" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Evaluate Offboarding Triggers</button>
-            <button onclick="resetOffboarding()" style="padding: 0.75rem 1.5rem; background: white; color: #64748b; border: 2px solid #cbd5e1; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Reset</button>
+            <button onclick="if(confirm('Reset all offboarding inputs? Entered data will be lost.')) resetOffboarding();" style="padding: 0.75rem 1.5rem; background: white; color: #64748b; border: 2px solid #cbd5e1; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Reset</button>
         </div>
 
         <!-- Evaluation Result -->
@@ -1971,19 +1977,37 @@ function showFacilitatorPanel(state) {
     const contentEl = document.getElementById('offFacPanelContent');
     panel.style.display = 'block';
 
+    // Build recalibrated card list and ratios for transition note
+    const cards = getCardPerformanceData();
+    const activeCards = cards.filter(c => c.ratios.some(r => r !== null));
+    const recalCards = activeCards.filter(c => c.recalibrated);
+    const ratios = activeCards.map(c => c.ratios[2]).filter(r => r !== null);
+    const avgRatio = ratios.length > 0 ? (ratios.reduce((a, b) => a + b, 0) / ratios.length).toFixed(2) : 'N/A';
+    const today = new Date().toLocaleDateString('en-AU');
+
+    // Facilitator notes field (reusable)
+    const notesField = `<div style="margin-top: 1rem;">
+        <label style="display: block; font-size: 0.8125rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Facilitator Notes</label>
+        <textarea id="offFacNotes" rows="3" placeholder="Record decision rationale, observations, or handoff notes..." style="width: 100%; padding: 0.625rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.875rem; box-sizing: border-box; resize: vertical;"></textarea>
+    </div>`;
+
     if (state === 'complete') {
         titleEl.textContent = 'COMPLETE — Facilitator Confirmation';
         contentEl.innerHTML = `
-            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">All completion criteria are met. Confirm program completion and choose next step.</p>
+            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">All completion criteria are met. Review the transition note, add any facilitator notes, then confirm.</p>
             <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
-                <div style="font-size: 0.8125rem; font-weight: 600; color: #15803d; margin-bottom: 0.5rem;">Transition Note (generated)</div>
-                <div style="font-size: 0.8125rem; color: #475569;">
-                    <div>Card set level: <strong>${document.getElementById('offCardSetLevel').value}</strong></div>
-                    <div>Sessions at this level: <strong>${document.getElementById('offConsecutiveSessions').value}</strong></div>
-                    <div>Facilitator may add notes before closing.</div>
+                <div style="font-size: 0.8125rem; font-weight: 600; color: #15803d; margin-bottom: 0.75rem;">Transition Note</div>
+                <div style="font-size: 0.8125rem; color: #475569; display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 1rem;">
+                    <span style="color: #64748b;">Date:</span><strong>${today}</strong>
+                    <span style="color: #64748b;">Card set level:</span><strong>${document.getElementById('offCardSetLevel').value}</strong>
+                    <span style="color: #64748b;">Sessions at this level:</span><strong>${document.getElementById('offConsecutiveSessions').value}</strong>
+                    <span style="color: #64748b;">Set-wide avg ratio:</span><strong>${avgRatio}</strong>
+                    <span style="color: #64748b;">Cards recalibrated:</span><strong>${recalCards.length} of ${activeCards.length}</strong>
                 </div>
+                ${recalCards.length > 0 ? '<div style="margin-top: 0.5rem; font-size: 0.75rem; color: #64748b;">Recalibrated: ' + recalCards.map(c => c.name).join(', ') + '</div>' : ''}
             </div>
-            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            ${notesField}
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
                 <button onclick="completeToUpgrade()" style="padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.875rem;">Proceed to UPGRADE</button>
                 <button onclick="completeConclude()" style="padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.875rem;">Conclude Program</button>
             </div>`;
@@ -1995,26 +2019,31 @@ function showFacilitatorPanel(state) {
         contentEl.innerHTML = `
             <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Participant has outgrown the current card set. Re-enter onboarding gate at Tier 2 to assign the next level.</p>
             ${mocaNote}
-            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            ${notesField}
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
                 <button onclick="showPage('onboarding')" style="padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.875rem;">Go to Onboarding (Tier 2)</button>
             </div>`;
     } else if (state === 'plateau') {
         titleEl.textContent = 'PLATEAU — Facilitator Action Required';
         contentEl.innerHTML = `
-            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Progress has stalled. The program is not auto-suspended. Choose an action.</p>
-            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; cursor: pointer;" onclick="this.style.background='#eef2ff'">
+            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Progress has stalled. The program is not auto-suspended. Select an action to record your decision.</p>
+            <div id="plateauOptions" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div id="plateauOptA" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; cursor: pointer; transition: all 0.15s;" onclick="selectPlateauOption('A')">
                     <div style="font-weight: 600; color: #1e293b; font-size: 0.875rem;">Option A — Continue as-is</div>
                     <div style="font-size: 0.8125rem; color: #64748b;">Plateau is acceptable (e.g. functional ceiling). Acknowledge and clear flag. Re-triggers if condition recurs.</div>
                 </div>
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; cursor: pointer;" onclick="this.style.background='#eef2ff'">
+                <div id="plateauOptB" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; cursor: pointer; transition: all 0.15s;" onclick="selectPlateauOption('B')">
                     <div style="font-weight: 600; color: #1e293b; font-size: 0.875rem;">Option B — Modify goals</div>
-                    <div style="font-size: 0.8125rem; color: #64748b;">Adjust goals on plateau cards — reduce to re-establish challenge gradient or restructure session. Go to <a href="#" onclick="showPage('cardOptions');return false;" style="color: #6366f1;">Card Options</a> to modify.</div>
+                    <div style="font-size: 0.8125rem; color: #64748b;">Adjust goals on plateau cards — reduce to re-establish challenge gradient or restructure session.</div>
                 </div>
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; cursor: pointer;" onclick="this.style.background='#eef2ff'">
+                <div id="plateauOptC" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; cursor: pointer; transition: all 0.15s;" onclick="selectPlateauOption('C')">
                     <div style="font-weight: 600; color: #1e293b; font-size: 0.875rem;">Option C — Suspend and review</div>
                     <div style="font-size: 0.8125rem; color: #64748b;">Suspend program. Recommend clinical review (SP, OT, or treating team). May resolve to Resume, RE-GATE, COMPLETE, or WITHDRAWN.</div>
                 </div>
+            </div>
+            ${notesField}
+            <div id="plateauConfirmArea" style="display: none; margin-top: 1rem;">
+                <button onclick="confirmPlateauAction()" style="padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.875rem;">Confirm Decision</button>
             </div>`;
     } else if (state === 'regate') {
         titleEl.textContent = 'RE-GATE — Program Suspended';
@@ -2023,7 +2052,8 @@ function showFacilitatorPanel(state) {
             <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.8125rem; color: #991b1b;">
                 Re-entry requires full Tier 0 onboarding gate. Tier 2-only re-entry is not permitted for RE-GATE — hard exclusion checks (GCS, mRS, NIHSS) must be re-evaluated.
             </div>
-            <div style="display: flex; gap: 0.75rem;">
+            ${notesField}
+            <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
                 <button onclick="showPage('onboarding')" style="padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.875rem;">Go to Onboarding Gate (Tier 0)</button>
             </div>`;
     } else if (state === 'session-gap') {
@@ -2031,28 +2061,103 @@ function showFacilitatorPanel(state) {
         const escalated = daysSince >= 30;
         titleEl.textContent = 'SESSION GAP — Resolution Required' + (escalated ? ' (ESCALATED)' : '');
         contentEl.innerHTML = `
-            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Select the reason for the gap to determine the resolution pathway.</p>
+            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Select the reason for the gap. Your selection determines the resolution pathway.</p>
             ${escalated ? '<div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.8125rem; color: #991b1b;">Gap has exceeded 30 days — escalated priority. Consider escalating to treating team.</div>' : ''}
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem;" onclick="this.style.background='#fffbeb'">
-                    <strong style="color: #1e293b;">Access barrier</strong> <span style="color: #64748b;">— transport, carer availability, technology → Resume, no state change</span>
+            <div id="gapOptions" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <div id="gapOpt_access" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem; transition: all 0.15s;" onclick="selectGapReason('access')">
+                    <strong style="color: #1e293b;">Access barrier</strong> <span style="color: #64748b;">— transport, carer availability, technology</span>
+                    <div style="font-size: 0.75rem; color: #10b981; margin-top: 0.25rem;">Resolution: Resume — no state change. Flag cleared.</div>
                 </div>
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem;" onclick="this.style.background='#fffbeb'">
-                    <strong style="color: #1e293b;">Participant or carer choice</strong> <span style="color: #64748b;">→ Resume or WITHDRAWN (facilitator determines)</span>
+                <div id="gapOpt_choice" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem; transition: all 0.15s;" onclick="selectGapReason('choice')">
+                    <strong style="color: #1e293b;">Participant or carer choice</strong>
+                    <div style="font-size: 0.75rem; color: #f59e0b; margin-top: 0.25rem;">Resolution: Resume or WITHDRAWN (facilitator determines)</div>
                 </div>
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem;" onclick="this.style.background='#fffbeb'">
-                    <strong style="color: #1e293b;">Care setting transfer</strong> <span style="color: #64748b;">→ Resume in new setting, RE-GATE if clinical change suspected, or WITHDRAWN</span>
+                <div id="gapOpt_transfer" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem; transition: all 0.15s;" onclick="selectGapReason('transfer')">
+                    <strong style="color: #1e293b;">Care setting transfer</strong>
+                    <div style="font-size: 0.75rem; color: #f59e0b; margin-top: 0.25rem;">Resolution: Resume in new setting, RE-GATE if clinical change suspected, or WITHDRAWN</div>
                 </div>
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem;" onclick="this.style.background='#fffbeb'">
-                    <strong style="color: #1e293b;">Clinical event</strong> <span style="color: #64748b;">— acute admission, illness → <a href="#" onclick="showPage('onboarding');return false;" style="color: #dc2626;">RE-GATE (Tier 0)</a></span>
+                <div id="gapOpt_clinical" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem; transition: all 0.15s;" onclick="selectGapReason('clinical')">
+                    <strong style="color: #1e293b;">Clinical event</strong> <span style="color: #64748b;">— acute admission, illness</span>
+                    <div style="font-size: 0.75rem; color: #dc2626; margin-top: 0.25rem;">Resolution: RE-GATE — full Tier 0 re-entry</div>
                 </div>
-                <div style="border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem;" onclick="this.style.background='#fffbeb'">
-                    <strong style="color: #1e293b;">Unknown</strong> <span style="color: #64748b;">→ Hold open. Escalate to treating team if gap extends.</span>
+                <div id="gapOpt_unknown" style="border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 0.75rem; cursor: pointer; font-size: 0.875rem; transition: all 0.15s;" onclick="selectGapReason('unknown')">
+                    <strong style="color: #1e293b;">Unknown</strong>
+                    <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.25rem;">Resolution: Hold open. Escalate to treating team if gap extends.</div>
                 </div>
+            </div>
+            ${notesField}
+            <div id="gapConfirmArea" style="display: none; margin-top: 1rem;">
+                <button onclick="confirmGapResolution()" style="padding: 0.625rem 1.25rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 0.875rem;">Confirm Resolution</button>
             </div>`;
     }
 
     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Plateau option selection
+let selectedPlateauOption = null;
+function selectPlateauOption(opt) {
+    selectedPlateauOption = opt;
+    ['A', 'B', 'C'].forEach(o => {
+        const el = document.getElementById('plateauOpt' + o);
+        el.style.borderColor = o === opt ? '#6366f1' : '#e2e8f0';
+        el.style.background = o === opt ? '#eef2ff' : 'white';
+    });
+    document.getElementById('plateauConfirmArea').style.display = 'block';
+}
+
+function confirmPlateauAction() {
+    const labels = { A: 'Continue as-is', B: 'Modify goals', C: 'Suspend and review' };
+    const notes = document.getElementById('offFacNotes')?.value || '';
+    showOffResult('plateau', 'PLATEAU — Decision Recorded',
+        'Facilitator selected: Option ' + selectedPlateauOption + ' — ' + labels[selectedPlateauOption] + '.',
+        [notes ? 'Facilitator notes: ' + notes : 'No facilitator notes recorded.'],
+        []);
+    if (selectedPlateauOption === 'B') {
+        document.getElementById('offFacPanelContent').innerHTML = '<div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; color: #4338ca;"><strong>Decision recorded: Modify goals.</strong> Go to <a href="#" onclick="showPage(\'cardOptions\');return false;" style="color: #6366f1; font-weight: 600;">Card Options</a> to adjust goals on plateau cards.</div>';
+    } else if (selectedPlateauOption === 'C') {
+        document.getElementById('offFacPanelContent').innerHTML = '<div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; color: #991b1b;"><strong>Decision recorded: Suspend and review.</strong> Program suspended. Clinical review (SP, OT, or treating team) recommended for plateau domains.</div>';
+    } else {
+        document.getElementById('offFacPanelContent').innerHTML = '<div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; color: #15803d;"><strong>Decision recorded: Continue as-is.</strong> Plateau flag acknowledged and cleared. Will re-trigger if condition recurs.</div>';
+    }
+}
+
+// Session gap reason selection
+let selectedGapReason = null;
+function selectGapReason(reason) {
+    selectedGapReason = reason;
+    ['access', 'choice', 'transfer', 'clinical', 'unknown'].forEach(r => {
+        const el = document.getElementById('gapOpt_' + r);
+        el.style.borderColor = r === reason ? '#f59e0b' : '#e2e8f0';
+        el.style.background = r === reason ? '#fffbeb' : 'white';
+    });
+    document.getElementById('gapConfirmArea').style.display = 'block';
+}
+
+function confirmGapResolution() {
+    const labels = { access: 'Access barrier — Resume', choice: 'Participant/carer choice', transfer: 'Care setting transfer', clinical: 'Clinical event — RE-GATE', unknown: 'Unknown — Hold open' };
+    const notes = document.getElementById('offFacNotes')?.value || '';
+    const reason = labels[selectedGapReason] || selectedGapReason;
+
+    if (selectedGapReason === 'clinical') {
+        showOffResult('regate', 'SESSION GAP → RE-GATE',
+            'Clinical event identified. Program suspended. Full Tier 0 onboarding re-entry required.',
+            ['Gap reason: ' + reason, notes ? 'Facilitator notes: ' + notes : ''],
+            []);
+        showFacilitatorPanel('regate');
+    } else if (selectedGapReason === 'access') {
+        showOffResult('continue', 'SESSION GAP — Resolved',
+            'Access barrier identified. Flag cleared. Program resumes — no state change.',
+            ['Gap reason: ' + reason, notes ? 'Facilitator notes: ' + notes : ''],
+            []);
+        document.getElementById('offFacilitatorPanel').style.display = 'none';
+    } else {
+        showOffResult('session-gap', 'SESSION GAP — Resolution: ' + reason,
+            'Gap reason recorded. Facilitator to determine next step.',
+            ['Gap reason: ' + reason, notes ? 'Facilitator notes: ' + notes : ''],
+            []);
+        document.getElementById('offFacPanelContent').innerHTML = '<div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 1rem; font-size: 0.875rem; color: #92400e;"><strong>Decision recorded: ' + reason + '.</strong> Facilitator to determine whether to resume, withdraw, or re-gate.</div>';
+    }
 }
 
 function confirmWithdrawal() {
@@ -2088,6 +2193,8 @@ function resetOffboarding() {
     document.getElementById('offMoCAAge').value = 'current';
     document.getElementById('offResultSection').style.display = 'none';
     document.getElementById('offFacilitatorPanel').style.display = 'none';
+    selectedPlateauOption = null;
+    selectedGapReason = null;
     renderOffboardCardInputs();
 }
 
