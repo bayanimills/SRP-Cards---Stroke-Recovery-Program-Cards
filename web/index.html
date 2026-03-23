@@ -19,6 +19,7 @@
             </div>
         </div>
         <div style="display: flex; gap: 1rem;">
+            <button onclick="showPage('onboarding')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="onboardingBtn">Onboarding</button>
             <button onclick="showPage('dashboard')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="dashboardBtn">Select Bed</button>
             <button onclick="showPage('create')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="createBtn">Print Cards</button>
             <button onclick="showPage('tracking')" style="padding: 0.5rem 1rem; background: transparent; border: none; color: #64748b; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; transition: all 0.2s;" id="trackingBtn">Tracking Sheet</button>
@@ -27,6 +28,107 @@
         </div>
     </div>
 </nav>
+
+<!-- Onboarding Page -->
+<div id="onboardingPage" style="display: none; padding: 2rem 1rem;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div style="margin-bottom: 2rem;">
+            <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">Participant Onboarding</h1>
+            <p style="color: #64748b; margin: 0;">Register a new participant and set up their recovery program</p>
+        </div>
+
+        <!-- Participant Details -->
+        <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Participant Details</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Participant ID</label>
+                    <input type="text" id="onboardParticipantId" placeholder="e.g., P001" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Bed Number</label>
+                    <select id="onboardBedNumber" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
+                        <option value="">Select bed...</option>
+                    </select>
+                    <script>(function(){ const sel = document.getElementById('onboardBedNumber'); for(let i=1;i<=30;i++) { const o=document.createElement('option'); o.value='B'+i; o.textContent='B'+i; sel.appendChild(o); } })();</script>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Date of Admission</label>
+                    <input type="date" id="onboardAdmitDate" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;" />
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Affected Side</label>
+                    <select id="onboardAffectedSide" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
+                        <option value="">Select...</option>
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                        <option value="bilateral">Bilateral</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Initial Assessment -->
+        <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Initial Assessment</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Mobility Level</label>
+                    <select id="onboardMobility" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
+                        <option value="">Select...</option>
+                        <option value="bed-bound">Bed-bound</option>
+                        <option value="chair-transfer">Chair transfer with assistance</option>
+                        <option value="walking-assisted">Walking with assistance</option>
+                        <option value="independent">Independent mobility</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Grip Strength</label>
+                    <select id="onboardGrip" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
+                        <option value="">Select...</option>
+                        <option value="none">No grip</option>
+                        <option value="weak">Weak grip</option>
+                        <option value="moderate">Moderate grip</option>
+                        <option value="functional">Functional grip</option>
+                    </select>
+                </div>
+                <div style="grid-column: 1 / -1;">
+                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Notes</label>
+                    <textarea id="onboardNotes" rows="3" placeholder="Any relevant clinical notes, precautions, or observations..." style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box; resize: vertical;"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Card Set -->
+        <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Recommended Card Set</h2>
+            </div>
+            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Based on the assessment above, select which exercise categories to include in this participant's initial card set.</p>
+            <div id="onboardCardCategories" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;"></div>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button onclick="clearOnboarding()" style="padding: 0.75rem 1.5rem; background: white; color: #64748b; border: 2px solid #cbd5e1; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Clear Form</button>
+            <button onclick="completeOnboarding()" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Complete Onboarding</button>
+        </div>
+
+        <div id="onboardingConfirmation" style="display: none; margin-top: 1.5rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.75rem; padding: 1.5rem; text-align: center;">
+            <div style="font-size: 2rem; margin-bottom: 0.5rem;">&#10003;</div>
+            <h3 style="color: #15803d; margin: 0 0 0.5rem 0;">Participant Onboarded</h3>
+            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;" id="onboardingConfirmText"></p>
+            <button onclick="showPage('create')" style="padding: 0.5rem 1.25rem; background: #10b981; color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600;">Go to Print Cards</button>
+        </div>
+    </div>
+</div>
 
 <!-- Dashboard Page -->
 <div id="dashboardPage" style="display: none; padding: 2rem 1rem;">
@@ -456,15 +558,18 @@ Object.entries(exercises).forEach(([cat, data]) => {
 });
 
 function showPage(page) {
-    ['dashboardPage', 'createPage', 'trackingPage', 'cardOptionsPage', 'helpPage'].forEach(p => document.getElementById(p).style.display = 'none');
+    ['onboardingPage', 'dashboardPage', 'createPage', 'trackingPage', 'cardOptionsPage', 'helpPage'].forEach(p => document.getElementById(p).style.display = 'none');
     document.getElementById(page + 'Page').style.display = 'block';
 
-    const btns = ['dashboardBtn', 'createBtn', 'trackingBtn', 'cardOptionsBtn', 'helpBtn'];
+    const btns = ['onboardingBtn', 'dashboardBtn', 'createBtn', 'trackingBtn', 'cardOptionsBtn', 'helpBtn'];
     btns.forEach(b => document.getElementById(b).style.borderBottomColor = 'transparent');
 
-    const pageMap = { dashboard: 'dashboardBtn', create: 'createBtn', tracking: 'trackingBtn', cardOptions: 'cardOptionsBtn', help: 'helpBtn' };
+    const pageMap = { onboarding: 'onboardingBtn', dashboard: 'dashboardBtn', create: 'createBtn', tracking: 'trackingBtn', cardOptions: 'cardOptionsBtn', help: 'helpBtn' };
     if (pageMap[page]) document.getElementById(pageMap[page]).style.borderBottomColor = '#10b981';
 
+    if (page === 'onboarding') {
+        renderOnboardCardCategories();
+    }
     if (page === 'create') {
         updateFormatSelection();
     }
@@ -968,6 +1073,48 @@ function onStepDrop(e) {
 function onStepDragEnd(e) {
     e.currentTarget.style.opacity = '1';
     document.querySelectorAll('ol[id^="stepList_"] li').forEach(li => { li.style.background = ''; });
+}
+
+// Onboarding
+function renderOnboardCardCategories() {
+    const container = document.getElementById('onboardCardCategories');
+    if (!container) return;
+    container.innerHTML = Object.entries(exercises).map(([cat, data]) => `
+        <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer; transition: all 0.15s;">
+            <input type="checkbox" value="${cat}" checked style="width: 1.25rem; height: 1.25rem; accent-color: ${data.hex};" />
+            <span style="font-size: 1.25rem; color: ${data.hex};">${data.shape}</span>
+            <span style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">${data.title}</span>
+        </label>
+    `).join('');
+}
+
+function clearOnboarding() {
+    document.getElementById('onboardParticipantId').value = '';
+    document.getElementById('onboardBedNumber').value = '';
+    document.getElementById('onboardAdmitDate').value = '';
+    document.getElementById('onboardAffectedSide').value = '';
+    document.getElementById('onboardMobility').value = '';
+    document.getElementById('onboardGrip').value = '';
+    document.getElementById('onboardNotes').value = '';
+    document.getElementById('onboardingConfirmation').style.display = 'none';
+    renderOnboardCardCategories();
+}
+
+function completeOnboarding() {
+    const pid = document.getElementById('onboardParticipantId').value.trim();
+    const bed = document.getElementById('onboardBedNumber').value;
+    if (!pid) { alert('Please enter a Participant ID.'); return; }
+    if (!bed) { alert('Please select a Bed Number.'); return; }
+
+    // Select the bed on the dashboard
+    const bedBtn = document.getElementById('bedBtn_' + bed);
+    if (bedBtn) bedBtn.click();
+
+    // Show confirmation
+    const conf = document.getElementById('onboardingConfirmation');
+    document.getElementById('onboardingConfirmText').textContent = `${pid} assigned to ${bed}. You can now print their recovery card set.`;
+    conf.style.display = 'block';
+    conf.scrollIntoView({ behavior: 'smooth' });
 }
 
 function copyCardState() {
