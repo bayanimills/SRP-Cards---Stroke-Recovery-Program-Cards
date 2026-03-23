@@ -29,7 +29,7 @@
 
         <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 2rem;">
             <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Select Bed Number</label>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(3.5rem, 1fr)); gap: 0.5rem;" id="bedGrid">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr)); gap: 0.625rem;" id="bedGrid">
             </div>
             <script>
             (function() {
@@ -39,7 +39,7 @@
                     btn.id = 'bedBtn_B' + i;
                     btn.textContent = 'B' + i;
                     btn.onclick = function() { selectBedFromGrid('B' + i); };
-                    btn.style.cssText = 'padding: 0.5rem 0.25rem; border: 2px solid #cbd5e1; border-radius: 0.5rem; background: #f8fafc; color: #1e293b; font-weight: 600; font-size: 0.875rem; cursor: pointer; text-align: center; transition: all 0.15s;';
+                    btn.style.cssText = 'padding: 0.75rem 0.5rem; border: 2px solid #cbd5e1; border-radius: 0.5rem; background: #f8fafc; color: #1e293b; font-weight: 700; font-size: 1.125rem; cursor: pointer; text-align: center; transition: all 0.15s;';
                     btn.onmouseenter = function() { if (!this.classList.contains('bed-active')) { this.style.borderColor = '#10b981'; this.style.background = '#f0fdf4'; } };
                     btn.onmouseleave = function() { if (!this.classList.contains('bed-active')) { this.style.borderColor = '#cbd5e1'; this.style.background = '#f8fafc'; } };
                     grid.appendChild(btn);
@@ -82,50 +82,10 @@
             <p style="color: #64748b; margin: 0;">Customize exercises for your patient's recovery program</p>
         </div>
 
-        <!-- Step 1: Patient Info -->
+        <!-- Step 1: Format Selection -->
         <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
             <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
                 <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
-                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Patient Information</h2>
-                <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 400;">(all fields optional)</span>
-            </div>
-            <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
-                <div style="flex: 1; min-width: 180px;">
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Bed Number</label>
-                    <select id="patientName" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
-                        <option value="">-- Select Bed --</option>
-                    </select>
-                    <script>(function(){const s=document.getElementById('patientName');for(let i=1;i<=30;i++){const o=document.createElement('option');o.value='B'+i;o.textContent='B'+i;s.appendChild(o);}})();</script>
-                </div>
-                <div style="flex: 0 0 120px;">
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Age</label>
-                    <input type="number" id="patientAge" placeholder="e.g., 78" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem;" />
-                </div>
-                <div style="flex: 1; min-width: 180px;">
-                    <label style="display: block; font-size: 0.875rem; font-weight: 600; color: #1e293b; margin-bottom: 0.375rem;">Card Frequency</label>
-                    <select id="cardFrequency" style="width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white;">
-                        <option value="15">Every 15 minutes</option>
-                        <option value="30" selected>Every 30 minutes</option>
-                        <option value="60">Hourly</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 2: Exercise Selection -->
-        <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
-                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Select Exercises</h2>
-            </div>
-            <p style="color: #64748b; margin-bottom: 1.5rem;">Choose one exercise from each category</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;" id="exerciseSelectionGrid"></div>
-        </div>
-
-        <!-- Step 3: Format Selection -->
-        <div style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
                 <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;">Choose Format</h2>
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;" id="formatCards">
@@ -134,7 +94,7 @@
                     <div id="formatCard-quadrant" style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 0.5rem; padding: 1rem; text-align: center; transition: all 0.2s;">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
                         <strong style="color: #1e293b;">4 on 1 Page</strong>
-                        <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">All exercises on one card for daily sessions</p>
+                        <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">All exercises on one card — choose one per category</p>
                     </div>
                 </label>
                 <label style="cursor: pointer; display: block;">
@@ -142,10 +102,25 @@
                     <div id="formatCard-single" style="background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 1rem; text-align: center; transition: all 0.2s;">
                         <div style="font-size: 2rem; margin-bottom: 0.5rem;">📄</div>
                         <strong style="color: #1e293b;">Large Cards</strong>
-                        <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">One per page, ideal for low vision</p>
+                        <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">One per page, ideal for low vision — select cards to print</p>
                     </div>
                 </label>
             </div>
+        </div>
+
+        <!-- Step 2: Exercise Selection (conditional on format) -->
+        <div id="exerciseSelectionSection" style="background: white; border-radius: 0.75rem; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 2rem; height: 2rem; background: #10b981; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
+                <h2 style="font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0;" id="exerciseStepTitle">Select Exercises</h2>
+            </div>
+            <p style="color: #64748b; margin-bottom: 1.5rem;" id="exerciseStepDesc">Choose one exercise from each category</p>
+
+            <!-- Quad Card view: per-category dropdowns -->
+            <div id="quadExerciseView" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;"></div>
+
+            <!-- Large Card view: checkbox list -->
+            <div id="largeCardExerciseView" style="display: none;"></div>
         </div>
 
         <!-- Preview -->
@@ -157,7 +132,6 @@
         <!-- Action Buttons -->
         <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
             <button onclick="generateAndPrint();" style="flex: 1; padding: 1rem; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Generate & Print</button>
-            <button onclick="saveForLater();" style="flex: 1; padding: 1rem; background: white; color: #10b981; border: 2px solid #10b981; border-radius: 0.5rem; cursor: pointer; font-weight: 600; font-size: 1rem;">Save for Later</button>
         </div>
     </div>
 </div>
@@ -366,6 +340,12 @@ const exercises = {
 };
 
 const selections = { hand: 0, shoulder: 0, arm: 0, leg: 0 };
+const largeCardSelections = {};
+// Initialise all exercises as selected by default for large cards
+Object.entries(exercises).forEach(([cat, data]) => {
+    largeCardSelections[cat] = {};
+    data.list.forEach((_, idx) => { largeCardSelections[cat][idx] = true; });
+});
 
 function showPage(page) {
     ['dashboardPage', 'createPage', 'trackingPage', 'helpPage'].forEach(p => document.getElementById(p).style.display = 'none');
@@ -378,11 +358,9 @@ function showPage(page) {
     if (pageMap[page]) document.getElementById(pageMap[page]).style.borderBottomColor = '#10b981';
 
     if (page === 'create') {
-        renderExerciseSelection();
-        updateFormatPreview();
+        updateFormatSelection();
     }
     if (page === 'tracking') {
-        // Set default month to current month
         const monthInput = document.getElementById('trackingMonth');
         if (!monthInput.value) {
             const now = new Date();
@@ -392,8 +370,8 @@ function showPage(page) {
     }
 }
 
-function renderExerciseSelection() {
-    const grid = document.getElementById('exerciseSelectionGrid');
+function renderQuadExerciseSelection() {
+    const grid = document.getElementById('quadExerciseView');
     grid.innerHTML = Object.entries(exercises).map(([cat, data]) => `
         <div style="background: linear-gradient(135deg, ${data.hex}15 0%, ${data.hex}05 100%); border: 2px solid ${data.hex}; border-radius: 0.75rem; padding: 1.5rem;">
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
@@ -404,10 +382,36 @@ function renderExerciseSelection() {
                 </div>
             </div>
             <select id="${cat}Select" onchange="updateSelection('${cat}', this.value); updateFormatPreview();" style="width: 100%; padding: 0.75rem; border: 2px solid ${data.hex}; border-radius: 0.5rem; background: white; color: #1e293b; font-weight: 500; font-size: 0.875rem;">
-                ${data.list.map((ex, idx) => `<option value="${idx}">${ex}</option>`).join('')}
+                ${data.list.map((ex, idx) => `<option value="${idx}" ${selections[cat] === idx ? 'selected' : ''}>${ex}</option>`).join('')}
             </select>
         </div>
     `).join('');
+}
+
+function renderLargeCardCheckboxes() {
+    const container = document.getElementById('largeCardExerciseView');
+    container.innerHTML = Object.entries(exercises).map(([cat, data]) => `
+        <div style="background: linear-gradient(135deg, ${data.hex}15 0%, ${data.hex}05 100%); border: 2px solid ${data.hex}; border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                <span style="font-size: 1.5rem;">${data.shape}</span>
+                <strong style="color: #1e293b;">${data.title}</strong>
+                <span style="font-size: 0.75rem; color: ${data.hex};">Card #${data.num}</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                ${data.list.map((ex, idx) => `
+                    <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; padding: 0.5rem 0.75rem; border-radius: 0.375rem; background: white; border: 1px solid ${data.hex}40; transition: all 0.15s;">
+                        <input type="checkbox" ${largeCardSelections[cat][idx] ? 'checked' : ''} onchange="toggleLargeCard('${cat}', ${idx}, this.checked);" style="width: 1.25rem; height: 1.25rem; accent-color: ${data.hex}; cursor: pointer;" />
+                        <span style="font-weight: 500; color: #1e293b; font-size: 0.9375rem;">${ex}</span>
+                    </label>
+                `).join('')}
+            </div>
+        </div>
+    `).join('');
+}
+
+function toggleLargeCard(cat, idx, checked) {
+    largeCardSelections[cat][idx] = checked;
+    updateFormatPreview();
 }
 
 function updateSelection(cat, idx) {
@@ -418,34 +422,76 @@ function updateFormatSelection() {
     const selected = document.querySelector('input[name="outputFormat"]:checked').value;
     const quadCard = document.getElementById('formatCard-quadrant');
     const singleCard = document.getElementById('formatCard-single');
+    const quadView = document.getElementById('quadExerciseView');
+    const largeView = document.getElementById('largeCardExerciseView');
+    const stepTitle = document.getElementById('exerciseStepTitle');
+    const stepDesc = document.getElementById('exerciseStepDesc');
+
     quadCard.style.border = selected === 'quadrant' ? '2px solid #10b981' : '2px solid #cbd5e1';
     quadCard.style.background = selected === 'quadrant' ? '#f0fdf4' : '#f8fafc';
     singleCard.style.border = selected === 'single' ? '2px solid #10b981' : '2px solid #cbd5e1';
     singleCard.style.background = selected === 'single' ? '#f0fdf4' : '#f8fafc';
+
+    if (selected === 'quadrant') {
+        stepTitle.textContent = 'Select Exercises';
+        stepDesc.textContent = 'Choose one exercise from each category for the quad card';
+        quadView.style.display = 'grid';
+        largeView.style.display = 'none';
+        renderQuadExerciseSelection();
+    } else {
+        stepTitle.textContent = 'Select Cards to Print';
+        stepDesc.textContent = 'Check the exercise cards you want to print — one card per page';
+        quadView.style.display = 'none';
+        largeView.style.display = 'block';
+        renderLargeCardCheckboxes();
+    }
     updateFormatPreview();
 }
 
 function updateFormatPreview() {
     const grid = document.getElementById('previewGrid');
-    grid.innerHTML = Object.keys(exercises).map(cat => {
-        const data = exercises[cat];
-        return `<div style="background: ${data.hex}10; border: 2px solid ${data.hex}; border-radius: 0.5rem; padding: 1rem;">
-            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">${data.shape}</div>
-            <strong style="color: #1e293b; display: block; font-size: 0.875rem;">${data.title}</strong>
-            <span style="color: ${data.hex}; font-weight: 600; font-size: 0.8125rem;">${data.list[selections[cat]]}</span>
-        </div>`;
-    }).join('');
+    const format = document.querySelector('input[name="outputFormat"]:checked').value;
+
+    if (format === 'quadrant') {
+        grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        grid.innerHTML = Object.keys(exercises).map(cat => {
+            const data = exercises[cat];
+            return `<div style="background: ${data.hex}10; border: 2px solid ${data.hex}; border-radius: 0.5rem; padding: 1rem;">
+                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">${data.shape}</div>
+                <strong style="color: #1e293b; display: block; font-size: 0.875rem;">${data.title}</strong>
+                <span style="color: ${data.hex}; font-weight: 600; font-size: 0.8125rem;">${data.list[selections[cat]]}</span>
+            </div>`;
+        }).join('');
+    } else {
+        // Large cards — show only checked cards
+        grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(180px, 1fr))';
+        let cards = [];
+        Object.entries(exercises).forEach(([cat, data]) => {
+            data.list.forEach((ex, idx) => {
+                if (largeCardSelections[cat][idx]) {
+                    cards.push(`<div style="background: ${data.hex}10; border: 2px solid ${data.hex}; border-radius: 0.5rem; padding: 1rem;">
+                        <div style="font-size: 1.25rem; margin-bottom: 0.25rem;">${data.shape}</div>
+                        <strong style="color: #1e293b; display: block; font-size: 0.8125rem;">${data.title}</strong>
+                        <span style="color: ${data.hex}; font-weight: 600; font-size: 0.75rem;">${ex}</span>
+                    </div>`);
+                }
+            });
+        });
+        grid.innerHTML = cards.length ? cards.join('') : '<p style="color: #94a3b8; grid-column: 1 / -1; text-align: center;">No cards selected</p>';
+    }
 }
 
 function generateAndPrint() {
-    const name = document.getElementById('patientName').value || 'Bed';
     const format = document.querySelector('input[name="outputFormat"]:checked').value;
-    alert(`✓ Generated sheet for Bed #${name}\n\nFormat: ${format === 'quadrant' ? '4 on 1 page' : 'Large cards'}\n\nOpening print dialog...`);
-}
-
-function saveForLater() {
-    const name = document.getElementById('patientName').value || 'Unnamed';
-    alert(`✓ Saved Bed #${name} sheet\n\nYou can access it from "Bed Number" page`);
+    if (format === 'single') {
+        let count = 0;
+        Object.entries(largeCardSelections).forEach(([cat, exMap]) => {
+            Object.values(exMap).forEach(v => { if (v) count++; });
+        });
+        alert(`Generating ${count} large card${count !== 1 ? 's' : ''} (one per page)\n\nOpening print dialog...`);
+    } else {
+        alert(`Generating quad card (4 on 1 page)\n\nOpening print dialog...`);
+    }
 }
 
 function onBedNumberChange(value) {
@@ -456,8 +502,6 @@ function onBedNumberChange(value) {
         display.textContent = value;
         info.style.display = 'block';
         empty.style.display = 'none';
-        // Sync bed number to Create Sheet and Tracking Sheet
-        document.getElementById('patientName').value = value;
         document.getElementById('trackingPatientName').value = value;
         updateTrackingBedDisplay();
     } else {
