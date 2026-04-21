@@ -9,6 +9,7 @@ Responsibilities:
 
 from __future__ import annotations
 
+import datetime
 import logging
 import os
 import signal
@@ -79,6 +80,7 @@ def run(config_path: Path = cfg.DEFAULT_CONFIG_PATH, once: bool = False) -> int:
     frame_surface: pygame.Surface | None = None
     card_idx = 0
     card_shown_at = time.monotonic()
+    current_date = datetime.date.today()
 
     def reload() -> None:
         nonlocal program, error_message, frame_surface, card_idx, card_shown_at
@@ -116,6 +118,12 @@ def run(config_path: Path = cfg.DEFAULT_CONFIG_PATH, once: bool = False) -> int:
         if program and now - card_shown_at >= program.dwell_seconds:
             card_idx = (card_idx + 1) % len(program.positions)
             card_shown_at = now
+            frame_surface = build_frame(width, height, program, error_message, card_idx)
+
+        today = datetime.date.today()
+        if today != current_date:
+            current_date = today
+            log.info("date rolled over to %s — rebuilding frame", today)
             frame_surface = build_frame(width, height, program, error_message, card_idx)
 
         if frame_surface is not None:

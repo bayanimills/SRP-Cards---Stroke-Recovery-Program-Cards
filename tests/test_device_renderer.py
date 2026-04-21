@@ -6,6 +6,7 @@ workstation with no framebuffer attached.
 
 from __future__ import annotations
 
+import datetime
 import json
 import os
 from pathlib import Path
@@ -105,6 +106,18 @@ def test_watcher_detects_change(tmp_path: Path):
 def test_render_single_produces_surface():
     surface = renderer.render_single(1280, 720, "hand", 0, patient="JIM")
     assert surface.get_size() == (1280, 720)
+
+
+def test_render_single_includes_date_banner():
+    # Pick a date where the strftime output is unambiguous.
+    when = datetime.date(2026, 4, 21)  # Tuesday
+    surface = renderer.render_single(1280, 720, "hand", 0, when=when)
+    # Top-edge pixel inside the banner area should be white (banner background).
+    # The bottom edge of the banner has a dark rule — sampling just above the
+    # rule proves the banner occupies that vertical strip.
+    banner_h = max(48, 720 // 12)
+    assert surface.get_at((640, 10))[:3] == (255, 255, 255)  # banner interior
+    assert surface.get_at((640, banner_h - 1))[0] < 200      # dark rule line
 
 
 def test_render_message_produces_surface():

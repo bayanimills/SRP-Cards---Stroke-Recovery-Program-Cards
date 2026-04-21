@@ -11,6 +11,7 @@ On a Pi Zero 2W this keeps CPU near idle between redraws.
 
 from __future__ import annotations
 
+import datetime
 import math
 from dataclasses import dataclass
 
@@ -21,6 +22,7 @@ from srp.exercises import EXERCISES, get_exercise
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREY = (204, 204, 204)
+BANNER_RULE = (80, 80, 80)
 
 
 def hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
@@ -160,19 +162,34 @@ def _draw_card(
     surface.blit(footer_surf, (step_x, footer_y))
 
 
+def _draw_date_banner(surface: pygame.Surface, width: int, height: int, when: datetime.date) -> None:
+    """Draw a date banner at the top of the screen. Format: "MON, 21 APR"."""
+    pygame.draw.rect(surface, WHITE, pygame.Rect(0, 0, width, height))
+    pygame.draw.line(surface, BANNER_RULE, (0, height - 1), (width, height - 1), 2)
+    font = pygame.font.SysFont(None, max(24, int(height * 0.7)), bold=True)
+    text = when.strftime("%a, %d %b").upper()
+    text_surf = font.render(text, True, BLACK)
+    surface.blit(text_surf, text_surf.get_rect(center=(width // 2, height // 2)))
+
+
 def render_single(
     width: int,
     height: int,
     exercise_type: str,
     exercise_idx: int,
     patient: str = "",
+    when: datetime.date | None = None,
 ) -> pygame.Surface:
     """One card filling the screen — stroke-patient-friendly large format."""
     surface = pygame.Surface((width, height))
     surface.fill(WHITE)
 
+    banner_h = max(48, height // 12)
+    _draw_date_banner(surface, width, banner_h, when or datetime.date.today())
+
+    card_rect = pygame.Rect(0, banner_h, width, height - banner_h)
     fonts = build_fonts(scale=2.0)
-    _draw_card(surface, pygame.Rect(0, 0, width, height), exercise_type, exercise_idx, fonts)
+    _draw_card(surface, card_rect, exercise_type, exercise_idx, fonts)
 
     if patient:
         label = build_fonts(1.0).patient.render(patient.upper(), True, GREY)
