@@ -1,0 +1,38 @@
+[Unit]
+Description=Stroke Recovery Program Cards — framebuffer display
+After=network-online.target systemd-user-sessions.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=srp
+Group=srp
+SupplementaryGroups=video render tty
+
+Environment=SDL_VIDEODRIVER=fbdev
+Environment=SDL_FBDEV=/dev/fb0
+Environment=SDL_AUDIODRIVER=dummy
+Environment=SDL_NO_MOUSE=1
+Environment=SRP_CONFIG=/etc/srp/program.json
+Environment=PYTHONUNBUFFERED=1
+
+# The systemd journal is volatile by default on RPi OS Lite; logs stay in RAM.
+StandardOutput=journal
+StandardError=journal
+
+# Venv created by scripts/install-pi.sh lives under /opt/srp.
+WorkingDirectory=/opt/srp
+ExecStart=/opt/srp/venv/bin/python -m device
+
+Restart=always
+RestartSec=3
+
+# Minor hardening — we only need the framebuffer and the config file.
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/etc/srp
+ProtectHome=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

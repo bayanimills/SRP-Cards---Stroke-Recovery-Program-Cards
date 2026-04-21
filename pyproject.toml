@@ -1,6 +1,6 @@
 [project]
 name = "srp-cards"
-version = "1.0.0"
+version = "1.1.0"
 description = "Stroke Recovery Program Cards — Personalized rehabilitation exercise card generator"
 readme = "README.md"
 license = "MIT"
@@ -16,12 +16,16 @@ dev = [
     "axe-playwright-python>=0.1.7",
     "ruff>=0.4",
 ]
+device = [
+    "pygame>=2.5,<3.0",
+]
 
 [project.scripts]
 exercise-sheet = "cli.exercise_sheet:main"
+srp-display = "device.display:main"
 
 [tool.setuptools.packages.find]
-include = ["cli*"]
+include = ["cli*", "srp*", "device*"]
 
 [tool.ruff]
 target-version = "py39"

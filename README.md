@@ -16,7 +16,7 @@ After stroke, recovery depends on consistent exercise. But accessing rehabilitat
 - **4 Exercise Categories**: Hand (★), Shoulder (●), Arm (■), Leg (▲)
 - **Multiple Output Formats**: 4 on 1 page, large single cards, icons only
 - **Accessibility First**: Colorblind-safe Okabe-Ito palette, large typography, shape + number ID
-- **Two Interfaces**: Browser (caregiver-friendly) + CLI (power users)
+- **Three Interfaces**: Browser (caregiver-friendly) + CLI (power users) + **Raspberry Pi display** (always-on HDMI)
 - **Works Offline**: No internet, no subscriptions, no cloud dependency
 - **Print & Laminate**: A4 landscape, laminate-friendly for daily goal tracking
 
@@ -40,6 +40,24 @@ exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 -o output.pdf
 # Generate large cards: 1 per page (2x size, easier to read)
 exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout single -o output.pdf
 ```
+
+### Raspberry Pi Display (Always-On)
+
+Turn a Raspberry Pi Zero 2W into a plug-in bedside display that cycles through
+the day's exercises on an HDMI monitor — no browser, no printing, no compositor.
+Update the program over SSH by editing a JSON file; the display picks it up
+within 5 seconds.
+
+```bash
+# On a fresh Pi Zero 2W running RPi OS Lite, after SSHing in:
+curl -fsSL https://raw.githubusercontent.com/bayanimills/Stroke-Recovery-Program-Cards/main/scripts/install-pi.sh | sudo bash
+
+# Edit the program any time:
+sudo nano /etc/srp/program.json
+```
+
+Full walkthrough: [docs/DEPLOY.md](docs/DEPLOY.md). Hardware details and
+framebuffer troubleshooting: [docs/HARDWARE.md](docs/HARDWARE.md).
 
 ## Exercise Library
 
@@ -75,22 +93,45 @@ Standardize exercise delivery across your facility. Generate customized cards fo
 srp-cards/
 ├── README.md                 # This file
 ├── LICENSE                   # MIT License
-├── pyproject.toml            # Package config & CLI entry point
-├── requirements.txt          # Python dependencies
+├── pyproject.toml            # Package config, CLI + device entry points
+├── requirements.txt          # CLI/PDF dependencies (reportlab)
+├── requirements-device.txt   # Device dependencies (pygame)
 ├── index.html                # Root redirect → web/index.html
+│
+├── srp/
+│   └── exercises.py          # Shared exercise library (CLI + device)
 │
 ├── web/
 │   ├── index.html            # Caregiver web interface (primary)
 │   └── system.html           # Admin documentation
 │
 ├── cli/
-│   └── exercise_sheet.py     # Python CLI tool
+│   └── exercise_sheet.py     # Python CLI tool (PDF output)
+│
+├── device/                    # Raspberry Pi framebuffer display
+│   ├── display.py            # Main loop
+│   ├── renderer.py           # pygame card drawing
+│   ├── config.py             # JSON config loader + mtime watcher
+│   └── __main__.py           # `python -m device`
+│
+├── config/
+│   └── program.example.json  # Default device config
+│
+├── systemd/
+│   └── srp-display.service   # Pi systemd unit
+│
+├── scripts/
+│   ├── install-pi.sh         # Idempotent fresh-Pi installer
+│   └── update.sh             # Pull latest + restart service
 │
 ├── tests/
 │   ├── test_exercise_sheet.py
-│   └── test_web_interface.py
+│   ├── test_web_interface.py
+│   └── test_device_renderer.py
 │
 ├── docs/
+│   ├── DEPLOY.md             # Pi deployment walkthrough
+│   ├── HARDWARE.md           # Framebuffer & Pi hardware notes
 │   ├── GITHUB_SETUP.md       # Setup guide
 │   └── QUICK_PUSH.md         # Quick reference
 │
