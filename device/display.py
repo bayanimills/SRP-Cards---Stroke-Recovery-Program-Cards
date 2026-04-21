@@ -85,8 +85,10 @@ def run(config_path: Path = cfg.DEFAULT_CONFIG_PATH, once: bool = False) -> int:
         try:
             program = cfg.load(config_path)
             error_message = None
-            log.info("loaded program: patient=%r layout=%s dwell=%ss program=%s",
-                     program.patient, program.layout, program.dwell_seconds, program.program)
+            log.info(
+                "loaded program: patient=%r dwell=%smin program=%s",
+                program.patient, program.dwell_minutes, program.program,
+            )
         except (ValueError, OSError) as e:
             program = None
             error_message = str(e)
@@ -111,11 +113,10 @@ def run(config_path: Path = cfg.DEFAULT_CONFIG_PATH, once: bool = False) -> int:
             reload()
 
         now = time.monotonic()
-        if program and program.layout == "cycle":
-            if now - card_shown_at >= program.dwell_seconds:
-                card_idx = (card_idx + 1) % len(program.positions)
-                card_shown_at = now
-                frame_surface = build_frame(width, height, program, error_message, card_idx)
+        if program and now - card_shown_at >= program.dwell_seconds:
+            card_idx = (card_idx + 1) % len(program.positions)
+            card_shown_at = now
+            frame_surface = build_frame(width, height, program, error_message, card_idx)
 
         if frame_surface is not None:
             screen.blit(frame_surface, (0, 0))
@@ -147,9 +148,6 @@ def build_frame(
         return renderer.render_message(width, height, "SRP Cards", "No config found — see /etc/srp/program.json")
 
     positions = program.positions
-    if program.layout == "grid":
-        return renderer.render_grid(width, height, positions, patient=program.patient)
-
     etype, eidx = positions[card_idx % len(positions)]
     return renderer.render_single(width, height, etype, eidx, patient=program.patient)
 

@@ -45,8 +45,9 @@ exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout single -o outp
 
 Turn a Raspberry Pi Zero 2W into a plug-in bedside display that cycles through
 the day's exercises on an HDMI monitor — no browser, no printing, no compositor.
-Update the program over SSH by editing a JSON file; the display picks it up
-within 5 seconds.
+One large card at a time, changing every **30 minutes by default** (editable
+down to 15-minute steps). Update the program over SSH by editing a JSON file;
+the display picks it up within 5 seconds.
 
 ```bash
 # On a fresh Pi Zero 2W running RPi OS Lite, after SSHing in:

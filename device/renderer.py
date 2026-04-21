@@ -160,36 +160,6 @@ def _draw_card(
     surface.blit(footer_surf, (step_x, footer_y))
 
 
-def render_grid(
-    width: int,
-    height: int,
-    positions: list[tuple[str, int]],
-    patient: str = "",
-) -> pygame.Surface:
-    """4 cards on one screen, matching the PDF 4-on-1 layout."""
-    surface = pygame.Surface((width, height))
-    surface.fill(WHITE)
-
-    qw, qh = width // 2, height // 2
-    quads = [
-        pygame.Rect(0, 0, qw, qh),
-        pygame.Rect(qw, 0, qw, qh),
-        pygame.Rect(0, qh, qw, qh),
-        pygame.Rect(qw, qh, qw, qh),
-    ]
-    fonts = build_fonts(scale=1.0)
-    for rect, (etype, eidx) in zip(quads, positions):
-        _draw_card(surface, rect, etype, eidx, fonts)
-
-    pygame.draw.line(surface, GREY, (qw, 0), (qw, height), 1)
-    pygame.draw.line(surface, GREY, (0, qh), (width, qh), 1)
-
-    if patient:
-        label = build_fonts(0.8).patient.render(patient.upper(), True, GREY)
-        surface.blit(label, (8, height - label.get_height() - 4))
-    return surface
-
-
 def render_single(
     width: int,
     height: int,

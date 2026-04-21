@@ -59,8 +59,7 @@ Example:
 ```json
 {
   "patient": "Jim",
-  "layout": "cycle",
-  "dwell_seconds": 30,
+  "dwell_minutes": 30,
   "program": ["hand_0", "shoulder_1", "arm_2", "leg_0"]
 }
 ```
@@ -72,9 +71,11 @@ Save and close — the display picks up the change within ~5 seconds, no restart
 | Field | Meaning |
 |-------|---------|
 | `patient` | Shown in the bottom-left corner. Empty string to hide. |
-| `layout` | `"cycle"` = one large card at a time (default, best for stroke patients). `"grid"` = 4 cards static on one screen. |
-| `dwell_seconds` | How long each card shows in `cycle` mode. |
+| `dwell_minutes` | How long each card stays on screen before advancing. Default `30`. Must be a multiple of 15 (minimum 15): `15`, `30`, `45`, `60`, `75`, … |
 | `program` | Exactly 4 entries: `"<category>_<index>"` where category is `hand`/`shoulder`/`arm`/`leg` and index is `0`, `1`, or `2`. See the exercise library below. |
+
+The display shows one exercise at a time (large, stroke-patient-friendly),
+cycling through the four in order and wrapping back to the first.
 
 ### Exercise library
 

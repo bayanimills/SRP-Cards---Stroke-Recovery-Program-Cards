@@ -4,13 +4,13 @@ The config file is plain JSON, SSH-editable. Example:
 
   {
     "patient": "Jim",
-    "layout": "cycle",
-    "dwell_seconds": 30,
+    "dwell_minutes": 30,
     "program": ["hand_0", "shoulder_1", "arm_2", "leg_0"]
   }
 
-`layout` is either "cycle" (one card at a time, default) or "grid"
-(4 cards on one screen, static).
+`dwell_minutes` is how long each card stays on screen before advancing
+to the next. Default is 30 minutes; must be a multiple of 15 (15, 30,
+45, 60, …) so the display aligns with a quarter-hour clock.
 """
 
 from __future__ import annotations
@@ -25,18 +25,23 @@ from srp.exercises import parse_position
 DEFAULT_CONFIG_PATH = Path(os.environ.get("SRP_CONFIG", "/etc/srp/program.json"))
 
 DEFAULT_PROGRAM = ["hand_0", "shoulder_0", "arm_0", "leg_0"]
+DWELL_STEP_MINUTES = 15
+DEFAULT_DWELL_MINUTES = 30
 
 
 @dataclass(frozen=True)
 class Program:
     patient: str = ""
-    layout: str = "cycle"
-    dwell_seconds: int = 30
+    dwell_minutes: int = DEFAULT_DWELL_MINUTES
     program: list[str] = field(default_factory=lambda: list(DEFAULT_PROGRAM))
 
     @property
     def positions(self) -> list[tuple[str, int]]:
         return [parse_position(p) for p in self.program]
+
+    @property
+    def dwell_seconds(self) -> int:
+        return self.dwell_minutes * 60
 
 
 def load(path: Path = DEFAULT_CONFIG_PATH) -> Program:
@@ -54,16 +59,19 @@ def load(path: Path = DEFAULT_CONFIG_PATH) -> Program:
 
     program = Program(
         patient=str(raw.get("patient", "") or ""),
-        layout=str(raw.get("layout", "cycle") or "cycle"),
-        dwell_seconds=int(raw.get("dwell_seconds", 30) or 30),
+        dwell_minutes=int(raw.get("dwell_minutes", DEFAULT_DWELL_MINUTES) or DEFAULT_DWELL_MINUTES),
         program=list(raw.get("program", DEFAULT_PROGRAM)) or list(DEFAULT_PROGRAM),
     )
     # Validate every position string up-front.
     _ = program.positions
-    if program.layout not in ("cycle", "grid"):
-        raise ValueError(f"layout must be 'cycle' or 'grid', got {program.layout!r}")
-    if program.dwell_seconds < 1:
-        raise ValueError(f"dwell_seconds must be >= 1, got {program.dwell_seconds}")
+    if program.dwell_minutes < DWELL_STEP_MINUTES:
+        raise ValueError(
+            f"dwell_minutes must be at least {DWELL_STEP_MINUTES}, got {program.dwell_minutes}"
+        )
+    if program.dwell_minutes % DWELL_STEP_MINUTES != 0:
+        raise ValueError(
+            f"dwell_minutes must be a multiple of {DWELL_STEP_MINUTES}, got {program.dwell_minutes}"
+        )
     if len(program.program) != 4:
         raise ValueError(f"program must list exactly 4 exercises, got {len(program.program)}")
     return program

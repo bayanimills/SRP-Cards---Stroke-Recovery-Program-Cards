@@ -34,7 +34,8 @@ def _pygame_init():
 def test_config_load_defaults(tmp_path: Path):
     missing = tmp_path / "nope.json"
     program = cfg.load(missing)
-    assert program.layout == "cycle"
+    assert program.dwell_minutes == 30
+    assert program.dwell_seconds == 1800
     assert len(program.program) == 4
 
 
@@ -44,24 +45,36 @@ def test_config_load_valid(tmp_path: Path):
         json.dumps(
             {
                 "patient": "Jim",
-                "layout": "grid",
-                "dwell_seconds": 15,
+                "dwell_minutes": 45,
                 "program": ["hand_0", "shoulder_1", "arm_2", "leg_0"],
             }
         )
     )
     program = cfg.load(path)
     assert program.patient == "Jim"
-    assert program.layout == "grid"
-    assert program.dwell_seconds == 15
+    assert program.dwell_minutes == 45
+    assert program.dwell_seconds == 45 * 60
     assert program.positions == [("hand", 0), ("shoulder", 1), ("arm", 2), ("leg", 0)]
 
 
-def test_config_rejects_bad_layout(tmp_path: Path):
+def test_config_rejects_sub_minimum_dwell(tmp_path: Path):
     path = tmp_path / "p.json"
-    path.write_text(json.dumps({"layout": "spiral", "program": ["hand_0"] * 4}))
-    with pytest.raises(ValueError):
+    path.write_text(json.dumps({"dwell_minutes": 5, "program": ["hand_0"] * 4}))
+    with pytest.raises(ValueError, match="at least 15"):
         cfg.load(path)
+
+
+def test_config_rejects_non_multiple_of_15(tmp_path: Path):
+    path = tmp_path / "p.json"
+    path.write_text(json.dumps({"dwell_minutes": 20, "program": ["hand_0"] * 4}))
+    with pytest.raises(ValueError, match="multiple of 15"):
+        cfg.load(path)
+
+
+def test_config_accepts_15_minute_dwell(tmp_path: Path):
+    path = tmp_path / "p.json"
+    path.write_text(json.dumps({"dwell_minutes": 15, "program": ["hand_0"] * 4}))
+    assert cfg.load(path).dwell_minutes == 15
 
 
 def test_config_rejects_wrong_program_length(tmp_path: Path):
@@ -89,12 +102,6 @@ def test_watcher_detects_change(tmp_path: Path):
     assert watcher.changed() is False
 
 
-def test_render_grid_produces_surface():
-    positions = [("hand", 0), ("shoulder", 1), ("arm", 2), ("leg", 0)]
-    surface = renderer.render_grid(1280, 720, positions, patient="JIM")
-    assert surface.get_size() == (1280, 720)
-
-
 def test_render_single_produces_surface():
     surface = renderer.render_single(1280, 720, "hand", 0, patient="JIM")
     assert surface.get_size() == (1280, 720)
@@ -110,13 +117,12 @@ def test_build_frame_uses_error_when_present():
     assert surface.get_size() == (1280, 720)
 
 
-def test_build_frame_grid_and_cycle(tmp_path: Path):
+def test_build_frame_cycles_through_all_cards(tmp_path: Path):
     path = tmp_path / "p.json"
     path.write_text(
         json.dumps(
             {
-                "layout": "cycle",
-                "dwell_seconds": 1,
+                "dwell_minutes": 15,
                 "program": ["hand_0", "shoulder_1", "arm_2", "leg_0"],
             }
         )
@@ -131,8 +137,7 @@ def test_run_once_renders_single_frame(tmp_path: Path, monkeypatch):
     path.write_text(
         json.dumps(
             {
-                "layout": "grid",
-                "dwell_seconds": 30,
+                "dwell_minutes": 30,
                 "program": ["hand_0", "shoulder_1", "arm_2", "leg_0"],
             }
         )

@@ -1,6 +1,5 @@
 {
   "patient": "",
-  "layout": "cycle",
-  "dwell_seconds": 30,
+  "dwell_minutes": 30,
   "program": ["hand_0", "shoulder_1", "arm_2", "leg_0"]
 }
