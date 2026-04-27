@@ -1,7 +1,7 @@
 [project]
 name = "srp-cards"
 version = "1.0.0"
-description = "Stroke Recovery Program Cards — Personalized rehabilitation exercise card generator"
+description = "Recovery Program Cards — Personalized movement-practice card generator for self-driven recovery"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"

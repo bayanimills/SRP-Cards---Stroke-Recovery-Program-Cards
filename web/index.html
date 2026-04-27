@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SRP Cards — Stroke Recovery Program</title>
+<title>Recovery Program Cards</title>
 <style>
 /* Mobile hamburger menu */
 #mobileMenuBtn { display: none; }
@@ -45,8 +45,8 @@
         <div style="display: flex; align-items: center; gap: 0.5rem;">
             <div style="font-size: 1.5rem;">🏥</div>
             <div>
-                <div style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0;">Stroke Recovery Cards</div>
-                <div style="font-size: 0.75rem; color: #64748b;">Recovery in Motion</div>
+                <div style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0;">Recovery Program Cards</div>
+                <div style="font-size: 0.75rem; color: #64748b;">Self-Driven Recovery in Motion</div>
             </div>
         </div>
         <button id="mobileMenuBtn" onclick="document.getElementById('navLinks').classList.toggle('open')">&#9776;</button>
@@ -82,14 +82,14 @@
                 <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer;">
                     <input type="radio" name="careSetting" value="acute" style="margin-top: 0.2rem;" onchange="onCareSettingChange()" />
                     <div>
-                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">Acute Stroke Unit</div>
+                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">Acute Care</div>
                         <div style="font-size: 0.75rem; color: #64748b;">Days 1-7. Flag only — cards not deployed.</div>
                     </div>
                 </label>
                 <label style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #e2e8f0; border-radius: 0.5rem; cursor: pointer;">
                     <input type="radio" name="careSetting" value="rehab" checked style="margin-top: 0.2rem;" onchange="onCareSettingChange()" />
                     <div>
-                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">Inpatient Rehabilitation</div>
+                        <div style="font-weight: 600; color: #1e293b; font-size: 0.9375rem;">In-Facility Recovery</div>
                         <div style="font-size: 0.75rem; color: #64748b;">Primary target. Full Tier 0 extraction available.</div>
                     </div>
                 </label>
@@ -112,8 +112,8 @@
 
         <!-- Acute flag-only message (hidden by default) -->
         <div id="acuteNotice" style="display: none; background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1.25rem 1.5rem; border-radius: 0.375rem; margin-bottom: 1.5rem;">
-            <h3 style="color: #92400e; margin: 0 0 0.5rem 0; font-size: 1rem;">Acute Stroke Unit — Flag Only</h3>
-            <p style="color: #78350f; margin: 0; font-size: 0.875rem;">Recovery cards are not deployed in the acute phase. This setting is recorded for continuity. Onboarding should occur once the participant transfers to rehabilitation or a post-acute setting.</p>
+            <h3 style="color: #92400e; margin: 0 0 0.5rem 0; font-size: 1rem;">Acute Care — Flag Only</h3>
+            <p style="color: #78350f; margin: 0; font-size: 0.875rem;">Recovery cards are not deployed in the acute phase. This setting is recorded for continuity. Onboarding should occur once the participant transfers to a recovery or post-acute setting.</p>
         </div>
 
         <!-- Tier 0: Passive Record Extraction -->
@@ -371,7 +371,7 @@
                 <h3 style="font-size: 1.125rem; font-weight: 600; color: #1e293b; margin: 0 0 0.5rem 0;">No bed selected</h3>
                 <p style="color: #64748b; margin: 0;">Select a bed number above to get started</p>
             </div>
-            <p style="color: #64748b; margin: 1.5rem 0 0 0; font-size: 0.8125rem; font-style: italic; text-align: center; max-width: 32rem; margin-left: auto; margin-right: auto;">A recovery tracking system can be built in — including mobile-based goal-setting, progress dashboards, and caregiver notifications to support each patient's journey.</p>
+            <p style="color: #64748b; margin: 1.5rem 0 0 0; font-size: 0.8125rem; font-style: italic; text-align: center; max-width: 32rem; margin-left: auto; margin-right: auto;">A recovery tracking system can be built in — including mobile-based goal-setting, progress dashboards, and facilitator notifications to support each individual's journey.</p>
         </div>
     </div>
 </div>
@@ -381,7 +381,7 @@
     <div style="max-width: 900px; margin: 0 auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0.75rem 0 1rem 0;">Create Recovery Card Set</h1>
-            <p style="color: #64748b; margin: 0;">Customize exercises for your patient's recovery program</p>
+            <p style="color: #64748b; margin: 0;">Customize exercises for the individual's recovery program</p>
         </div>
 
         <!-- Step 1: Format Selection (Large Cards first, default) -->
@@ -475,9 +475,9 @@
                 <!-- Header: title left, bed/month right -->
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; flex-shrink: 0;">
                     <div>
-                        <h2 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0;">Stroke Recovery Program Goal Tracker</h2>
+                        <h2 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0;">Recovery Program Goal Tracker</h2>
                         <p style="color: #475569; margin: 0; font-size: 0.6875rem;">Daily Goal per Exercise</p>
-                        <p style="color: #64748b; margin: 0.125rem 0 0 0; font-size: 0.5rem; font-style: italic;">Set a goal the patient can reach about 80% of the time — e.g. if they can do 8 reps comfortably, set the goal at 10.</p>
+                        <p style="color: #64748b; margin: 0.125rem 0 0 0; font-size: 0.5rem; font-style: italic;">Set a goal the individual can reach about 80% of the time — e.g. if they can do 8 reps comfortably, set the goal at 10.</p>
                     </div>
                     <div style="text-align: right;">
                         <p style="color: #1e293b; font-weight: 600; margin: 0; font-size: 0.8125rem;" id="trackingNameDisplay">Bed #: ___</p>
@@ -560,11 +560,11 @@
 <!-- Help Page -->
 <div id="helpPage" class="mob-page" style="display: none; padding: 2rem 1rem;">
     <div style="max-width: 800px; margin: 0 auto;">
-        <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0.75rem 0 1rem 0;">How Stroke Recovery Cards Work</h1>
+        <h1 style="font-size: 2rem; font-weight: 700; color: #1e293b; margin: 0.75rem 0 1rem 0;">How Recovery Program Cards Work</h1>
 
         <div style="background: white; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem;">
-            <h3 style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">What are Stroke Recovery Cards?</h3>
-            <p style="color: #64748b; margin: 0;">Stroke Recovery Cards help patients regain strength and independence through daily, personalized exercises. Each card is designed for patients with vision or cognitive challenges — large text, colorblind-safe colors, and clear step-by-step instructions. No medical training required.</p>
+            <h3 style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">What are Recovery Program Cards?</h3>
+            <p style="color: #64748b; margin: 0;">Recovery Program Cards help individuals regain strength and independence through daily, personalized movement practice. Each card is designed for people with vision or cognitive challenges — large text, colorblind-safe colors, and clear step-by-step instructions. No training required.</p>
         </div>
 
         <div style="background: white; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem;">
@@ -598,19 +598,19 @@
                 </div>
                 <div>
                     <strong style="color: #1e293b; font-size: 0.9375rem;">Large Cards (2x Size)</strong>
-                    <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">One exercise per page, double size. Better for patients with low vision or cognitive limitations.</p>
+                    <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">One exercise per page, double size. Better for low vision or cognitive limitations.</p>
                 </div>
             </div>
         </div>
 
         <div style="background: white; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem;">
             <h3 style="font-size: 1.125rem; font-weight: 700; color: #1e293b; margin: 0 0 0.5rem 0;">About: Design Principles</h3>
-            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Stroke Recovery Cards are designed with accessibility at the core. Every visual decision prioritises readability for patients with impaired vision, cognitive fatigue, or colour vision deficiency.</p>
+            <p style="color: #64748b; margin: 0 0 1rem 0; font-size: 0.875rem;">Recovery Program Cards are designed with accessibility at the core. Every visual decision prioritises readability for people with impaired vision, cognitive fatigue, or colour vision deficiency.</p>
 
             <div style="margin-bottom: 1.25rem;">
                 <strong style="color: #1e293b; font-size: 0.9375rem;">Font Size Selection</strong>
-                <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">The font sizes below are based on the <strong>Large Card (single exercise per page)</strong> format, which is the primary design target for patient-facing readability. Card titles use a minimum of 24 pt (1.5 rem) bold weight to ensure legibility at arm's length. Step instructions are set at 18 pt (1.125 rem) regular weight.</p>
-                <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">The <strong>4-on-1-Page (Quadrant) format</strong> uses proportionally smaller font sizes to fit four exercise cards on a single sheet. Titles are approximately 22 pt and instructions approximately 18 pt in the quadrant layout. This format is intended as a caregiver reference and is not optimised for direct patient use.</p>
+                <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">The font sizes below are based on the <strong>Large Card (single exercise per page)</strong> format, which is the primary design target for end-user readability. Card titles use a minimum of 24 pt (1.5 rem) bold weight to ensure legibility at arm's length. Step instructions are set at 18 pt (1.125 rem) regular weight.</p>
+                <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">The <strong>4-on-1-Page (Quadrant) format</strong> uses proportionally smaller font sizes to fit four exercise cards on a single sheet. Titles are approximately 22 pt and instructions approximately 18 pt in the quadrant layout. This format is intended as a facilitator reference and is not optimised for direct end-user readability.</p>
                 <p style="color: #64748b; margin: 0.5rem 0 0 0; font-size: 0.875rem;">All text uses the system UI font stack (-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif) for maximum cross-platform clarity and consistent rendering.</p>
             </div>
 
@@ -664,7 +664,7 @@
                 <ul style="color: #64748b; margin: 0.5rem 0 0 0; padding-left: 1.5rem; font-size: 0.875rem;">
                     <li>Wong, B. (2011). "Points of view: Color blindness." <em>Nature Methods</em>, 8(6), 441. — <a href="https://www.nature.com/articles/nmeth.1618" target="_blank" rel="noopener" style="color: #1d4ed8;">nature.com/articles/nmeth.1618</a></li>
                     <li>Web Content Accessibility Guidelines (WCAG) 2.1 — Contrast ratio minimum 4.5:1 for normal text. — <a href="https://www.w3.org/TR/WCAG21/" target="_blank" rel="noopener" style="color: #1d4ed8;">w3.org/TR/WCAG21</a></li>
-                    <li>Stroke Foundation guidelines on patient-facing print materials. — <a href="https://strokefoundation.org.au/" target="_blank" rel="noopener" style="color: #1d4ed8;">strokefoundation.org.au</a></li>
+                    <li>Stroke Foundation guidelines on accessible print materials for end users. — <a href="https://strokefoundation.org.au/" target="_blank" rel="noopener" style="color: #1d4ed8;">strokefoundation.org.au</a></li>
                 </ul>
             </div>
 
@@ -685,7 +685,7 @@
                 <li>Laminate printed sheets for durability</li>
                 <li>Use whiteboard markers on laminated sheets to check off daily completions</li>
                 <li>Print in color for best readability</li>
-                <li>Keep sheets visible in the patient's exercise area</li>
+                <li>Keep sheets visible in the exercise area</li>
             </ul>
         </div>
     </div>
@@ -1457,8 +1457,8 @@ function onCareSettingChange() {
         tier0.style.background = '#f1f5f9'; tier0.style.pointerEvents = 'none';
         tier1.style.opacity = '0.5'; tier1.style.pointerEvents = 'none';
         tier2.style.opacity = '0.5'; tier2.style.pointerEvents = 'none';
-        showGateOutput('exclude', 'Acute Stroke Unit — Flag Only',
-            'Recovery cards are not deployed during the acute phase. This setting has been recorded. Onboarding should occur once the participant transfers to rehabilitation or a post-acute setting.', [], []);
+        showGateOutput('exclude', 'Acute Care — Flag Only',
+            'Recovery cards are not deployed during the acute phase. This setting has been recorded. Onboarding should occur once the participant transfers to a recovery or post-acute setting.', [], []);
     } else {
         acuteNotice.style.display = 'none';
         tier0.style.background = 'white'; tier0.style.pointerEvents = 'auto';
@@ -2047,7 +2047,7 @@ function showFacilitatorPanel(state) {
             </div>`;
     } else if (state === 'upgrade') {
         const mocaAge = document.getElementById('offMoCAAge').value;
-        const mocaNote = mocaAge === 'overdue' ? '<div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.8125rem; color: #92400e;"><strong>MoCA rescore recommended</strong> — last MoCA is over 3 months old. Recommend rescore before proceeding to align with Stroke Foundation Clinical Guidelines.</div>' :
+        const mocaNote = mocaAge === 'overdue' ? '<div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.8125rem; color: #92400e;"><strong>MoCA rescore recommended</strong> — last MoCA is over 3 months old. Consider a rescore before proceeding.</div>' :
             mocaAge === 'unknown' ? '<div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.8125rem; color: #92400e;"><strong>MoCA status unknown</strong> — confirm MoCA date before proceeding.</div>' : '';
         titleEl.textContent = 'UPGRADE — Transition to Next Level';
         contentEl.innerHTML = `

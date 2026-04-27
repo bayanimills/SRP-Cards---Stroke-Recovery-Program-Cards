@@ -1,4 +1,4 @@
-# GitHub Setup Guide — Stroke Recovery Program Cards
+# GitHub Setup Guide — Recovery Program Cards
 
 ## Quick Start (5 minutes)
 
@@ -6,7 +6,7 @@
 ```bash
 # Go to github.com/new
 # Repository name: SRP-Cards---Stroke-Recovery-Program-Cards
-# Description: Personalized stroke recovery exercise cards for patients and caregivers
+# Description: Personalized movement-practice exercise cards for individuals and facilitators
 # Public/Private: Your choice
 # Initialize with: README (NO - we'll create our own)
 ```
@@ -57,7 +57,7 @@ chmod +x cli/exercise-sheet
 ### 5. Push to GitHub
 ```bash
 git add .
-git commit -m "Initial commit: Stroke Recovery Program Cards"
+git commit -m "Initial commit: Recovery Program Cards"
 git push -u origin main
 ```
 
@@ -82,7 +82,7 @@ gh repo create SRP-Cards---Stroke-Recovery-Program-Cards --public --source=. --r
 # Enable GitHub Pages
 # Settings > Pages > Source: main branch /root
 
-# Your caregiver interface will be live at:
+# Your facilitator interface will be live at:
 # https://username.github.io/SRP-Cards---Stroke-Recovery-Program-Cards/web/index.html
 ```
 
