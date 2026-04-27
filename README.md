@@ -1,22 +1,22 @@
-# Stroke Recovery Program Cards
+# Recovery Program Cards
 
-**Recovery in Motion** — Personalized, accessible rehabilitation exercises that empower patients and caregivers through evidence-based, easy-to-use printed cards.
+**Self-Driven Recovery in Motion** — Personalized, accessible movement-practice cards that empower individuals and facilitators through easy-to-use printed cards.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python 3.7+](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/)
 
-## Why SRP Cards?
+## Why Recovery Program Cards?
 
-After stroke, recovery depends on consistent exercise. But accessing rehabilitation is hard: therapists are expensive, transportation is difficult, and patients often have cognitive or vision challenges. Caregivers lack training. Exercise sheets are confusing. Recovery stalls.
+Recovery depends on consistent movement practice. But accessing structured guidance is hard: therapists are expensive, transportation is difficult, and individuals often have cognitive or vision challenges. Facilitators lack training. Exercise sheets are confusing. Progress stalls.
 
-**Stroke Recovery Program Cards put evidence-based rehabilitation directly into the hands of patients and caregivers.** Personalized. Accessible. Printable. Low-cost. Works anywhere.
+**Recovery Program Cards put structured movement practice directly into the hands of individuals and facilitators.** Personalized. Accessible. Printable. Low-cost. Works anywhere.
 
 ## Features
 
 - **4 Exercise Categories**: Hand (★), Shoulder (●), Arm (■), Leg (▲)
 - **Multiple Output Formats**: 4 on 1 page, large single cards, icons only
 - **Accessibility First**: Colorblind-safe Okabe-Ito palette, large typography, shape + number ID
-- **Two Interfaces**: Browser (caregiver-friendly) + CLI (power users)
+- **Two Interfaces**: Browser (facilitator-friendly) + CLI (power users)
 - **Works Offline**: No internet, no subscriptions, no cloud dependency
 - **Print & Laminate**: A4 landscape, laminate-friendly for daily goal tracking
 
@@ -24,21 +24,21 @@ After stroke, recovery depends on consistent exercise. But accessing rehabilitat
 
 ### Browser (No Installation)
 
-1. Open `web/index.html` in any browser
+1. Visit [bayanimills.github.io/SRP-Cards---Stroke-Recovery-Program-Cards](https://bayanimills.github.io/SRP-Cards---Stroke-Recovery-Program-Cards/web/index.html) or open `web/index.html` locally
 2. Create a personalized exercise program in 5 minutes
 3. Print, laminate, track progress
 
 ### Command Line
 
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# Install (includes CLI entry point)
+pip install -e .
 
 # Generate card set: 4 cards on 1 page
-python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 -o output.pdf
+exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 -o output.pdf
 
 # Generate large cards: 1 per page (2x size, easier to read)
-python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout single -o output.pdf
+exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout single -o output.pdf
 ```
 
 ## Exercise Library
@@ -52,14 +52,14 @@ python3 cli/exercise-sheet -1 hand_0 -2 shoulder_1 -3 arm_2 -4 leg_0 --layout si
 
 ## Who Is This For?
 
-### Stroke Patients
+### Individuals
 Clear daily structure. Accessible design that works even with vision or memory challenges. Track progress and build confidence on your own timeline.
 
-### Caregivers
-No PT background needed. Generate a personalized exercise routine in 5 minutes. Print it. Laminate it. Your patient does 1-2 cards daily. You track completion.
+### Facilitators (family, friends, support workers)
+No training needed. Generate a personalized exercise routine in 5 minutes. Print it. Laminate it. The individual does 1-2 cards daily. You track completion together.
 
-### Clinical Administrators
-Standardize exercise delivery across your facility. Generate customized cards for each patient. Evidence-based, accessible, scalable.
+### Program Administrators
+Standardize exercise delivery across your facility. Generate customized cards for each individual. Accessible, scalable.
 
 ## Design System
 
@@ -75,22 +75,28 @@ Standardize exercise delivery across your facility. Generate customized cards fo
 srp-cards/
 ├── README.md                 # This file
 ├── LICENSE                   # MIT License
+├── pyproject.toml            # Package config & CLI entry point
 ├── requirements.txt          # Python dependencies
-├── .gitignore               # Git ignore rules
-│
-├── cli/
-│   └── exercise-sheet       # Python CLI tool
+├── index.html                # Root redirect → web/index.html
 │
 ├── web/
-│   ├── index.html   # Caregiver interface (primary)
-│   ├── system.html          # Admin documentation
-│   └── index.html           # Developer tool
+│   ├── index.html            # Facilitator web interface (primary)
+│   └── system.html           # Admin documentation
+│
+├── cli/
+│   └── exercise_sheet.py     # Python CLI tool
+│
+├── tests/
+│   ├── test_exercise_sheet.py
+│   └── test_web_interface.py
 │
 ├── docs/
-│   ├── GITHUB_SETUP.md      # Setup guide
-│   └── QUICK_PUSH.md        # Quick reference
+│   ├── GITHUB_SETUP.md       # Setup guide
+│   └── QUICK_PUSH.md         # Quick reference
 │
-└── examples/                # Sample outputs
+├── examples/                  # Sample outputs
+│
+└── .github/workflows/         # CI & GitHub Pages deployment
 ```
 
 ## Installation
@@ -107,10 +113,10 @@ srp-cards/
 git clone https://github.com/bayanimills/SRP-Cards---Stroke-Recovery-Program-Cards.git
 cd SRP-Cards---Stroke-Recovery-Program-Cards
 
-pip install -r requirements.txt
-chmod +x cli/exercise-sheet
+# Install package with CLI tool
+pip install -e .
 
-# Open caregiver interface
+# Open facilitator interface
 open web/index.html
 ```
 
@@ -119,7 +125,7 @@ open web/index.html
 ### Browser Interface
 
 1. Open `web/index.html`
-2. Enter patient name and ability level
+2. Enter name and ability level
 3. Select one exercise per category
 4. Choose output format (4-on-1 or large cards)
 5. Generate & Print
@@ -155,7 +161,7 @@ Contributions welcome! Please:
 ### Roadmap
 
 - [ ] Custom exercise library editor
-- [ ] Patient progress tracking dashboard
+- [ ] Progress tracking dashboard
 - [ ] Mobile app version
 - [ ] Multi-language support
 - [ ] Ability-level variants
@@ -167,9 +173,7 @@ MIT License. See [LICENSE](LICENSE) file for details.
 
 ## Credits
 
-Built by **P&L Dwyer Engineering** in partnership with **Australian Bitcoin Industry Body (ABIB)**.
-
-Designed with an accessibility-first approach for post-stroke rehabilitation.
+Designed with an accessibility-first approach for self-driven recovery and movement practice.
 
 ## FAQ
 
@@ -179,12 +183,12 @@ A: Currently, you modify the Python script. A web-based editor is on the roadmap
 **Q: Is internet required?**
 A: No. Both web interface and CLI work completely offline.
 
-**Q: What if a patient is colorblind?**
+**Q: What if someone is colorblind?**
 A: The Okabe-Ito palette is tested to be distinguishable for all color vision types. The shape + number system provides redundant identification.
 
-**Q: Can I track patient progress?**
+**Q: Can I track progress?**
 A: Laminate the cards and use dry-erase markers for daily goal tracking. Digital progress tracking is on the roadmap.
 
 ---
 
-*Professional rehabilitation, accessible to everyone. Generate. Print. Progress.*
+*Accessible movement practice for everyone. Generate. Print. Progress.*

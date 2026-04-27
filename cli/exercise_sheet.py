@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Stroke Recovery Program Cards — CLI Generator
-Generate personalized, accessible A4 exercise cards for post-stroke rehabilitation
+Recovery Program Cards — CLI Generator
+Generate personalized, accessible A4 exercise cards for self-driven recovery and movement practice
 """
 
 import argparse
@@ -346,7 +346,7 @@ def generate_sheet(output_file, pos1, pos2, pos3, pos4, layout='four'):
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Stroke Recovery Program Cards — Generate personalized rehabilitation exercise cards',
+        description='Recovery Program Cards — Generate personalized movement-practice exercise cards',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog='''
 Examples:

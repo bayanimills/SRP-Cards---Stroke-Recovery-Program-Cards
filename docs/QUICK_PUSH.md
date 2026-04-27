@@ -1,10 +1,10 @@
-# Stroke Recovery Program Cards — Quick Push Guide
+# Recovery Program Cards — Quick Push Guide
 
 ## Step 1: Create Repo on GitHub (1 min)
 
 1. Go to **github.com/new**
 2. Name: `SRP-Cards---Stroke-Recovery-Program-Cards`
-3. Description: `Personalized stroke recovery exercise cards for patients and caregivers`
+3. Description: `Personalized movement-practice exercise cards for individuals and facilitators`
 4. Visibility: **Public** (or Private)
 5. Create repository (don't initialize with README)
 
@@ -46,10 +46,10 @@ chmod +x cli/exercise-sheet
 ```bash
 git add .
 
-git commit -m "Initial commit: Stroke Recovery Program Cards
+git commit -m "Initial commit: Recovery Program Cards
 
 - CLI tool for PDF generation (exercise-sheet)
-- Caregiver web interface (index.html)
+- Facilitator web interface (index.html)
 - Admin documentation (system.html)
 - Developer tool (index.html)
 - Setup guides and documentation"
